@@ -1,0 +1,92 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\proyects\\fin_attendance_api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\proyects\\fin_attendance_api\\fin_attendance_api\\controllers\\reportes\\attendanceanalysiscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\controllers\\reportes\\attendanceanalysiscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\proyects\\fin_attendance_api\\fin_attendance_api\\core\\reporte\\iattendanceanalysisservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\core\\reporte\\iattendanceanalysisservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\proyects\\fin_attendance_api\\fin_attendance_api\\core\\reporte\\attendanceanalysisservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\core\\reporte\\attendanceanalysisservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\proyects\\fin_attendance_api\\fin_attendance_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AttendanceAnalysisService.cs",
+              "DocumentMoniker": "C:\\proyects\\fin_attendance_api\\fin_attendance_api\\Core\\Reporte\\AttendanceAnalysisService.cs",
+              "RelativeDocumentMoniker": "fin_attendance_api\\Core\\Reporte\\AttendanceAnalysisService.cs",
+              "ToolTip": "C:\\proyects\\fin_attendance_api\\fin_attendance_api\\Core\\Reporte\\AttendanceAnalysisService.cs",
+              "RelativeToolTip": "fin_attendance_api\\Core\\Reporte\\AttendanceAnalysisService.cs",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAQwGUAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T00:35:55.243Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IAttendanceAnalysisService.cs",
+              "DocumentMoniker": "C:\\proyects\\fin_attendance_api\\fin_attendance_api\\Core\\Reporte\\IAttendanceAnalysisService.cs",
+              "RelativeDocumentMoniker": "fin_attendance_api\\Core\\Reporte\\IAttendanceAnalysisService.cs",
+              "ToolTip": "C:\\proyects\\fin_attendance_api\\fin_attendance_api\\Core\\Reporte\\IAttendanceAnalysisService.cs",
+              "RelativeToolTip": "fin_attendance_api\\Core\\Reporte\\IAttendanceAnalysisService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T00:22:09.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AttendanceAnalysisController.cs",
+              "DocumentMoniker": "C:\\proyects\\fin_attendance_api\\fin_attendance_api\\Controllers\\Reportes\\AttendanceAnalysisController.cs",
+              "RelativeDocumentMoniker": "fin_attendance_api\\Controllers\\Reportes\\AttendanceAnalysisController.cs",
+              "ToolTip": "C:\\proyects\\fin_attendance_api\\fin_attendance_api\\Controllers\\Reportes\\AttendanceAnalysisController.cs",
+              "RelativeToolTip": "fin_attendance_api\\Controllers\\Reportes\\AttendanceAnalysisController.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAowEkAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T21:54:55.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\proyects\\fin_attendance_api\\fin_attendance_api\\Program.cs",
+              "RelativeDocumentMoniker": "fin_attendance_api\\Program.cs",
+              "ToolTip": "C:\\proyects\\fin_attendance_api\\fin_attendance_api\\Program.cs",
+              "RelativeToolTip": "fin_attendance_api\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T21:53:44.786Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

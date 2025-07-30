@@ -1,0 +1,11 @@
+C:\proyects\fin_attendance_api\Dtos\bin\Debug\net8.0\Dtos.deps.json
+C:\proyects\fin_attendance_api\Dtos\bin\Debug\net8.0\Dtos.dll
+C:\proyects\fin_attendance_api\Dtos\bin\Debug\net8.0\Dtos.pdb
+C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\Dtos.GeneratedMSBuildEditorConfig.editorconfig
+C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\Dtos.AssemblyInfoInputs.cache
+C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\Dtos.AssemblyInfo.cs
+C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\Dtos.csproj.CoreCompileInputs.cache
+C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\Dtos.dll
+C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\refint\Dtos.dll
+C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\Dtos.pdb
+C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\ref\Dtos.dll
