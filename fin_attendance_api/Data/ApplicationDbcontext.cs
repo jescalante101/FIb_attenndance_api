@@ -1,5 +1,6 @@
 ﻿using Entities.Manager;
 using Entities.ManualLog;
+using Entities.Scire;
 using Entities.Shifts;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,7 +63,29 @@ namespace FibAttendanceApi.Data
                 .Property(e => e.Active)
                 .HasDefaultValue("Y");
 
+
+            modelBuilder.Entity<RhArea>(entity =>
+            {
+                entity.ToTable("RH_Area", "SCIRERH_V4.dbo");
+                entity.HasKey(e => e.AreaId);
+                entity.Property(e => e.AreaId).HasColumnName("Area_Id");
+                entity.Property(e => e.CompaniaId).HasColumnName("Compania_Id");
+            });
+
+            modelBuilder.Entity<Ccosto>(entity =>
+            {
+                entity.ToTable("Ccosto", "SCIRERH_V4.dbo");
+                entity.HasKey(e => e.CcostoId);
+                entity.Property(e => e.CcostoId).HasColumnName("ccosto_id");
+                entity.Property(e => e.EstadoId).HasColumnName("Estado_id");
+                entity.Property(e => e.CompaniaId).HasColumnName("Compania_Id");
+            });
+
         }
+        //Scire Tables
+        public DbSet<RhArea> RhAreas { get; set; }
+        public DbSet<Ccosto> Ccostos { get; set; }
+
         // DbSets
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<AppUserSite> AppUserSites { get; set; }

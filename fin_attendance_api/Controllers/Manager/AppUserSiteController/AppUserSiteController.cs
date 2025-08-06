@@ -5,7 +5,7 @@ using FibAttendanceApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FibAttendanceApi.Controllers.AppUserSiteController
+namespace FibAttendanceApi.Controllers.Manager.AppUserSiteController
 {
     /// <summary>
     /// Controlador para gestionar la relación Usuario-Sede (AppUserSite).
@@ -76,7 +76,7 @@ namespace FibAttendanceApi.Controllers.AppUserSiteController
 
             // Valores por defecto
             appUserSite.Active ??= "Y";
-            appUserSite.CreationDate ??= System.DateTime.Now;
+            appUserSite.CreationDate ??= DateTime.Now;
 
             _context.AppUserSites.Add(appUserSite);
             await _context.SaveChangesAsync();
@@ -89,6 +89,38 @@ namespace FibAttendanceApi.Controllers.AppUserSiteController
                     data=appUserSite
                 });
         }
+
+
+        /// <summary>
+        /// Registro en Array de relaciones Usuario-Sede.
+        /// </summary>
+        [HttpPost("bulk")]
+        public async Task<IActionResult> CreateBulk([FromBody] List<AppUserSite> appUserSites)
+        {
+            if (appUserSites == null || !appUserSites.Any())
+                return BadRequest(new { message = "El cuerpo de la solicitud no puede estar vacío." });
+            var createdEntities = new List<AppUserSite>();
+            foreach (var appUserSite in appUserSites)
+            {
+                if (appUserSite.UserId <= 0 || string.IsNullOrWhiteSpace(appUserSite.SiteId))
+                    return BadRequest(new { message = "El ID de usuario y el ID de sede son obligatorios." });
+                // Validar si ya existe la relación
+                var exists = await _context.AppUserSites.FindAsync(appUserSite.UserId, appUserSite.SiteId);
+                if (exists != null)
+                    continue; // O manejar como conflicto si se prefiere
+                // Valores por defecto
+                appUserSite.Active ??= "Y";
+                appUserSite.CreationDate ??= DateTime.Now;
+                _context.AppUserSites.Add(appUserSite);
+                createdEntities.Add(appUserSite);
+            }
+            if (!createdEntities.Any())
+                return Conflict(new { message = "No se crearon nuevas relaciones Usuario-Sede porque ya existen." });
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetAll), createdEntities);
+        }
+
+
 
         /// <summary>
         /// Actualiza una relación Usuario-Sede existente.

@@ -365,7 +365,7 @@ namespace FibAttendanceApi.Controllers.Reportes
 
                 return Ok(new
                 {
-                    TotalRecords = result.TotalRecords,
+                    result.TotalRecords,
                     RecommendedPageSize = Math.Min(100, Math.Max(10, result.TotalRecords / 10)),
                     EstimatedPages50 = (int)Math.Ceiling((double)result.TotalRecords / 50),
                     EstimatedPages100 = (int)Math.Ceiling((double)result.TotalRecords / 100)

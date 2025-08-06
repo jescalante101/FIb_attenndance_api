@@ -9,3 +9,15 @@ C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\Dtos.dll
 C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\refint\Dtos.dll
 C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\Dtos.pdb
 C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\ref\Dtos.dll
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\bin\Debug\net8.0\Dtos.deps.json
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\bin\Debug\net8.0\Dtos.dll
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\bin\Debug\net8.0\Dtos.pdb
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\Dtos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\Dtos.AssemblyInfoInputs.cache
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\Dtos.AssemblyInfo.cs
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\Dtos.csproj.CoreCompileInputs.cache
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\Dtos.sourcelink.json
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\Dtos.dll
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\refint\Dtos.dll
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\Dtos.pdb
+C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\ref\Dtos.dll

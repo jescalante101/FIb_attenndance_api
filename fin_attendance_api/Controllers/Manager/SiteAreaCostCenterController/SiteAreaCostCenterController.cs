@@ -4,7 +4,7 @@ using FibAttendanceApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FibAttendanceApi.Controllers.SiteAreaController
+namespace FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController
 {
     /// <summary>
     /// Controlador para gestionar las relaciones Sede-Área (SiteArea).
@@ -73,7 +73,7 @@ namespace FibAttendanceApi.Controllers.SiteAreaController
                 return Conflict(new { message = "Ya existe una relación Sede-Área con esos identificadores." });
 
             siteArea.Active ??= "Y";
-            siteArea.CreationDate ??= System.DateTime.Now;
+            siteArea.CreationDate ??= DateTime.Now;
 
             _context.SiteAreaCostCenters.Add(siteArea);
             await _context.SaveChangesAsync();

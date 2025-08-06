@@ -9,3 +9,15 @@ C:\proyects\fin_attendance_api\Entities\obj\Debug\net8.0\Entities.dll
 C:\proyects\fin_attendance_api\Entities\obj\Debug\net8.0\refint\Entities.dll
 C:\proyects\fin_attendance_api\Entities\obj\Debug\net8.0\Entities.pdb
 C:\proyects\fin_attendance_api\Entities\obj\Debug\net8.0\ref\Entities.dll
+C:\Fib_Attendance\FIb_attenndance_api\Entities\bin\Debug\net8.0\Entities.deps.json
+C:\Fib_Attendance\FIb_attenndance_api\Entities\bin\Debug\net8.0\Entities.dll
+C:\Fib_Attendance\FIb_attenndance_api\Entities\bin\Debug\net8.0\Entities.pdb
+C:\Fib_Attendance\FIb_attenndance_api\Entities\obj\Debug\net8.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Fib_Attendance\FIb_attenndance_api\Entities\obj\Debug\net8.0\Entities.AssemblyInfoInputs.cache
+C:\Fib_Attendance\FIb_attenndance_api\Entities\obj\Debug\net8.0\Entities.AssemblyInfo.cs
+C:\Fib_Attendance\FIb_attenndance_api\Entities\obj\Debug\net8.0\Entities.csproj.CoreCompileInputs.cache
+C:\Fib_Attendance\FIb_attenndance_api\Entities\obj\Debug\net8.0\Entities.sourcelink.json
+C:\Fib_Attendance\FIb_attenndance_api\Entities\obj\Debug\net8.0\Entities.dll
+C:\Fib_Attendance\FIb_attenndance_api\Entities\obj\Debug\net8.0\refint\Entities.dll
+C:\Fib_Attendance\FIb_attenndance_api\Entities\obj\Debug\net8.0\Entities.pdb
+C:\Fib_Attendance\FIb_attenndance_api\Entities\obj\Debug\net8.0\ref\Entities.dll

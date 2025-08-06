@@ -4,7 +4,7 @@ using FibAttendanceApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FibAttendanceApi.Controllers.SiteCostCenterController
+namespace FibAttendanceApi.Controllers.Manager.SiteCostCenterController
 {
     /// <summary>
     /// Controlador para gestionar las relaciones Sede-Centro de Costo (SiteCostCenter).
@@ -75,7 +75,7 @@ namespace FibAttendanceApi.Controllers.SiteCostCenterController
 
             // Valores por defecto
             siteCostCenter.Active ??= "Y";
-            siteCostCenter.CreationDate ??= System.DateTime.Now;
+            siteCostCenter.CreationDate ??= DateTime.Now;
 
             _context.SiteCostCenters.Add(siteCostCenter);
             await _context.SaveChangesAsync();

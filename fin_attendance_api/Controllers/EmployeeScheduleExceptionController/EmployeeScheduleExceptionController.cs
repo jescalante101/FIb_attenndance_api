@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace FibAttendanceApi.Controllers
+namespace FibAttendanceApi.Controllers.EmployeeScheduleExceptionController
 {
     [ApiController]
     [Route("api/[controller]")]

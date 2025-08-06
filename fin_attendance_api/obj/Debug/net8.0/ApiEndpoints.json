@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
     "Method": "GetAll",
     "RelativePath": "api/AppUser",
     "HttpMethod": "GET",
@@ -20,7 +20,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
     "Method": "Create",
     "RelativePath": "api/AppUser",
     "HttpMethod": "POST",
@@ -64,7 +64,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
     "Method": "GetById",
     "RelativePath": "api/AppUser/{userId}",
     "HttpMethod": "GET",
@@ -90,7 +90,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
     "Method": "Update",
     "RelativePath": "api/AppUser/{userId}",
     "HttpMethod": "PUT",
@@ -111,7 +111,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
     "Method": "Delete",
     "RelativePath": "api/AppUser/{userId}",
     "HttpMethod": "DELETE",
@@ -127,7 +127,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
     "Method": "GetSedesYAreasDeUsuario",
     "RelativePath": "api/AppUser/{userId}/sedes-areas",
     "HttpMethod": "GET",
@@ -143,7 +143,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserSiteController.AppUserSiteController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserSiteController.AppUserSiteController",
     "Method": "GetAll",
     "RelativePath": "api/AppUserSite",
     "HttpMethod": "GET",
@@ -163,7 +163,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserSiteController.AppUserSiteController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserSiteController.AppUserSiteController",
     "Method": "Create",
     "RelativePath": "api/AppUserSite",
     "HttpMethod": "POST",
@@ -207,7 +207,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserSiteController.AppUserSiteController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserSiteController.AppUserSiteController",
     "Method": "GetById",
     "RelativePath": "api/AppUserSite/{userId}/{siteId}",
     "HttpMethod": "GET",
@@ -238,7 +238,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserSiteController.AppUserSiteController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserSiteController.AppUserSiteController",
     "Method": "Update",
     "RelativePath": "api/AppUserSite/{userId}/{siteId}",
     "HttpMethod": "PUT",
@@ -264,7 +264,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.AppUserSiteController.AppUserSiteController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserSiteController.AppUserSiteController",
     "Method": "Delete",
     "RelativePath": "api/AppUserSite/{userId}/{siteId}",
     "HttpMethod": "DELETE",
@@ -279,6 +279,22 @@
       {
         "Name": "siteId",
         "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserSiteController.AppUserSiteController",
+    "Method": "CreateBulk",
+    "RelativePath": "api/AppUserSite/bulk",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appUserSites",
+        "Type": "System.Collections.Generic.List\u00601[[Entities.Manager.AppUserSite, Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
@@ -736,6 +752,74 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.Reportes.Simple.AttendanceSummaryDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
+    "Method": "ExportToExcel",
+    "RelativePath": "api/AttendanceMatrix/export",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixFilterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
+    "Method": "GetMatrix",
+    "RelativePath": "api/AttendanceMatrix/matrix",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixFilterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
+    "Method": "GetMatrixPivot",
+    "RelativePath": "api/AttendanceMatrix/pivot",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixFilterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixPivotResponseDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1285,7 +1369,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController.EmployeeScheduleExceptionController",
     "Method": "GetAllExceptions",
     "RelativePath": "api/EmployeeScheduleException",
     "HttpMethod": "GET",
@@ -1308,7 +1392,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController.EmployeeScheduleExceptionController",
     "Method": "CreateException",
     "RelativePath": "api/EmployeeScheduleException",
     "HttpMethod": "POST",
@@ -1344,7 +1428,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController.EmployeeScheduleExceptionController",
     "Method": "GetExceptionById",
     "RelativePath": "api/EmployeeScheduleException/{id}",
     "HttpMethod": "GET",
@@ -1380,7 +1464,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController.EmployeeScheduleExceptionController",
     "Method": "UpdateException",
     "RelativePath": "api/EmployeeScheduleException/{id}",
     "HttpMethod": "PUT",
@@ -1426,7 +1510,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController.EmployeeScheduleExceptionController",
     "Method": "DeleteException",
     "RelativePath": "api/EmployeeScheduleException/{id}",
     "HttpMethod": "DELETE",
@@ -1460,7 +1544,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController.EmployeeScheduleExceptionController",
     "Method": "ToggleExceptionStatus",
     "RelativePath": "api/EmployeeScheduleException/{id}/toggle",
     "HttpMethod": "PATCH",
@@ -1499,7 +1583,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController.EmployeeScheduleExceptionController",
     "Method": "GetExceptionsByDate",
     "RelativePath": "api/EmployeeScheduleException/date/{date}",
     "HttpMethod": "GET",
@@ -1535,7 +1619,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeScheduleExceptionController.EmployeeScheduleExceptionController",
     "Method": "GetExceptionsByEmployee",
     "RelativePath": "api/EmployeeScheduleException/employee/{employeeId}",
     "HttpMethod": "GET",
@@ -1569,6 +1653,196 @@
         "StatusCode": 500
       }
     ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.IclokTransactionController.IclockTransactionController",
+    "Method": "GetAsistencias",
+    "RelativePath": "api/IclockTransaction",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fechaInicio",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "fechaFin",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "empleadoFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Dtos.Transactions.IclockTransactionDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.IclokTransactionController.IclockTransactionController",
+    "Method": "GetAnalisisAsistencias",
+    "RelativePath": "api/IclockTransaction/analisis",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fechaInicio",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "fechaFin",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "empleadoFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Dtos.Transactions.AsistenciaCompletaDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.IclokTransactionController.IclockTransactionController",
+    "Method": "GetAnalisisAsistenciasPaginadas",
+    "RelativePath": "api/IclockTransaction/analisis/paginado",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fechaInicio",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "fechaFin",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "empleadoFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Transactions.PagedResult\u00601[[Dtos.Transactions.AsistenciaCompletaDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.IclokTransactionController.IclockTransactionController",
+    "Method": "GetAsistenciasPaginadas",
+    "RelativePath": "api/IclockTransaction/paginado",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fechaInicio",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "fechaFin",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "empleadoFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Transactions.PagedResult\u00601[[Dtos.Transactions.IclockTransactionDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.IclokTransactionController.IclockTransactionController",
+    "Method": "GetResumenAsistencias",
+    "RelativePath": "api/IclockTransaction/resumen",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fechaInicio",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "fechaFin",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "empleadoFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "FibAttendanceApi.Controllers.ShiftController.ShiftController",
@@ -1713,7 +1987,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteAreaController.SiteAreaCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController.SiteAreaCostCenterController",
     "Method": "GetAll",
     "RelativePath": "api/SiteAreaCostCenter",
     "HttpMethod": "GET",
@@ -1733,7 +2007,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteAreaController.SiteAreaCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController.SiteAreaCostCenterController",
     "Method": "Create",
     "RelativePath": "api/SiteAreaCostCenter",
     "HttpMethod": "POST",
@@ -1777,7 +2051,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteAreaController.SiteAreaCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController.SiteAreaCostCenterController",
     "Method": "GetById",
     "RelativePath": "api/SiteAreaCostCenter/{siteId}/{areaId}",
     "HttpMethod": "GET",
@@ -1808,7 +2082,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteAreaController.SiteAreaCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController.SiteAreaCostCenterController",
     "Method": "Update",
     "RelativePath": "api/SiteAreaCostCenter/{siteId}/{areaId}",
     "HttpMethod": "PUT",
@@ -1834,7 +2108,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteAreaController.SiteAreaCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController.SiteAreaCostCenterController",
     "Method": "Delete",
     "RelativePath": "api/SiteAreaCostCenter/{siteId}/{areaId}",
     "HttpMethod": "DELETE",
@@ -1855,7 +2129,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteCostCenterController.SiteCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteCostCenterController.SiteCostCenterController",
     "Method": "GetAll",
     "RelativePath": "api/SiteCostCenter",
     "HttpMethod": "GET",
@@ -1875,7 +2149,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteCostCenterController.SiteCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteCostCenterController.SiteCostCenterController",
     "Method": "Create",
     "RelativePath": "api/SiteCostCenter",
     "HttpMethod": "POST",
@@ -1919,7 +2193,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteCostCenterController.SiteCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteCostCenterController.SiteCostCenterController",
     "Method": "GetById",
     "RelativePath": "api/SiteCostCenter/{siteId}/{costCenterId}",
     "HttpMethod": "GET",
@@ -1950,7 +2224,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteCostCenterController.SiteCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteCostCenterController.SiteCostCenterController",
     "Method": "Update",
     "RelativePath": "api/SiteCostCenter/{siteId}/{costCenterId}",
     "HttpMethod": "PUT",
@@ -1976,7 +2250,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.SiteCostCenterController.SiteCostCenterController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.SiteCostCenterController.SiteCostCenterController",
     "Method": "Delete",
     "RelativePath": "api/SiteCostCenter/{siteId}/{costCenterId}",
     "HttpMethod": "DELETE",
@@ -1997,7 +2271,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "fin_attendance_api.Controllers.WeatherForecastController",
+    "ContainingType": "FibAttendanceApi.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",
     "HttpMethod": "GET",

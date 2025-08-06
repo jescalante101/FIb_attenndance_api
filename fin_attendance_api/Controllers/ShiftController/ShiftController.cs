@@ -402,7 +402,7 @@ namespace FibAttendanceApi.Controllers.ShiftController
 
                     // Calcular el día del ciclo para información adicional
                     var daysSinceStart = (current - startDate).Days;
-                    var cycleDay = (daysSinceStart % shiftCycle) + 1;
+                    var cycleDay = daysSinceStart % shiftCycle + 1;
 
                     if (hasException)
                     {
@@ -410,7 +410,7 @@ namespace FibAttendanceApi.Controllers.ShiftController
                         result.Add(new
                         {
                             dayIndex = matchingSchedule.DayIndex,
-                            cycleDay = cycleDay,
+                            cycleDay,
                             dayName = GetDayName(dayOfWeek),
                             dayDate = current,
                             alias = exception.TimeIntervalAlias,
@@ -429,7 +429,7 @@ namespace FibAttendanceApi.Controllers.ShiftController
                         result.Add(new
                         {
                             dayIndex = matchingSchedule.DayIndex,
-                            cycleDay = cycleDay,
+                            cycleDay,
                             dayName = GetDayName(dayOfWeek),
                             dayDate = current,
                             alias = matchingSchedule.Alias,

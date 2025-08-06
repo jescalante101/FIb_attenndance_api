@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "c7WTkxpV63w=",
+  "dgSpecHash": "tb1mBlRVnfo=",
   "success": true,
-  "projectFilePath": "C:\\proyects\\fin_attendance_api\\Entities\\Entities.csproj",
+  "projectFilePath": "C:\\Fib_Attendance\\FIb_attenndance_api\\Entities\\Entities.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

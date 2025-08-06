@@ -490,6 +490,46 @@
         }
       }
     },
+    "/api/AppUserSite/bulk": {
+      "post": {
+        "tags": [
+          "AppUserSite"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AppUserSite"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AppUserSite"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AppUserSite"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/AttBreaktime/lstDescansos": {
       "get": {
         "tags": [
@@ -1292,6 +1332,133 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AttendanceMatrix/matrix": {
+      "post": {
+        "tags": [
+          "AttendanceMatrix"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceMatrixResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceMatrixResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceMatrixResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/AttendanceMatrix/export": {
+      "post": {
+        "tags": [
+          "AttendanceMatrix"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AttendanceMatrix/pivot": {
+      "post": {
+        "tags": [
+          "AttendanceMatrix"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceMatrixPivotResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceMatrixPivotResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceMatrixPivotResponseDto"
+                }
+              }
+            }
           }
         }
       }
@@ -2563,6 +2730,313 @@
         }
       }
     },
+    "/api/IclockTransaction": {
+      "get": {
+        "tags": [
+          "IclockTransaction"
+        ],
+        "parameters": [
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "empleadoFilter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IclockTransactionDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IclockTransactionDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IclockTransactionDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/IclockTransaction/paginado": {
+      "get": {
+        "tags": [
+          "IclockTransaction"
+        ],
+        "parameters": [
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "empleadoFilter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IclockTransactionDtoPagedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IclockTransactionDtoPagedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IclockTransactionDtoPagedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/IclockTransaction/analisis": {
+      "get": {
+        "tags": [
+          "IclockTransaction"
+        ],
+        "parameters": [
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "empleadoFilter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AsistenciaCompletaDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AsistenciaCompletaDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AsistenciaCompletaDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/IclockTransaction/analisis/paginado": {
+      "get": {
+        "tags": [
+          "IclockTransaction"
+        ],
+        "parameters": [
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "empleadoFilter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsistenciaCompletaDtoPagedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsistenciaCompletaDtoPagedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsistenciaCompletaDtoPagedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/IclockTransaction/resumen": {
+      "get": {
+        "tags": [
+          "IclockTransaction"
+        ],
+        "parameters": [
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "empleadoFilter",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Shift/lstShifts": {
       "get": {
         "tags": [
@@ -3401,6 +3875,202 @@
         },
         "additionalProperties": false
       },
+      "AsistenciaCompletaDto": {
+        "type": "object",
+        "properties": {
+          "nro_Doc": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellido_Paterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellido_Materno": {
+            "type": "string",
+            "nullable": true
+          },
+          "areaDescripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "ccostoDescripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "turnoAlias": {
+            "type": "string",
+            "nullable": true
+          },
+          "horarioAlias": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaMarcacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "horarioEntrada": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "horarioSalida": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "horaEntrada": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "horaSalida": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "terminalEntrada": {
+            "type": "string",
+            "nullable": true
+          },
+          "terminalSalida": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalMarcacionesDia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "marcacionesEsperadas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contadorEntradas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contadorSalidas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contadorBreaks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estadoEntrada": {
+            "type": "string",
+            "nullable": true
+          },
+          "estadoDia": {
+            "type": "string",
+            "nullable": true
+          },
+          "estadoMarcaciones": {
+            "type": "string",
+            "nullable": true
+          },
+          "minutosTardanza": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "minutosSalidaTemprana": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "minutosTrabajados": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "diaSemana": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "detalleMarcaciones": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreCompleto": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "diaSemanaTexto": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "horasTrabajadas": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "readOnly": true
+          },
+          "esPuntual": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "tieneTardanza": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "tieneSalidaTemprana": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "asistenciaCompleta": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "marcacionesCompletas": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AsistenciaCompletaDtoPagedResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AsistenciaCompletaDto"
+            },
+            "nullable": true
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "AttAttshift": {
         "required": [
           "alias",
@@ -4112,6 +4782,298 @@
         },
         "additionalProperties": false
       },
+      "AttendanceMatrixDto": {
+        "type": "object",
+        "properties": {
+          "personalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "nroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "colaborador": {
+            "type": "string",
+            "nullable": true
+          },
+          "sede": {
+            "type": "string",
+            "nullable": true
+          },
+          "sedeCodigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "area": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargo": {
+            "type": "string",
+            "nullable": true
+          },
+          "centroCosto": {
+            "type": "string",
+            "nullable": true
+          },
+          "ccCodigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "compania": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaIngreso": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "diaSemanaEs": {
+            "type": "string",
+            "nullable": true
+          },
+          "turnoNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoHorario": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoDia": {
+            "type": "string",
+            "nullable": true
+          },
+          "entradaProgramada": {
+            "type": "string",
+            "nullable": true
+          },
+          "salidaProgramada": {
+            "type": "string",
+            "nullable": true
+          },
+          "marcacionesEsperadas": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "breaksConfigurados": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoPermiso": {
+            "type": "string",
+            "nullable": true
+          },
+          "marcacionesDelDia": {
+            "type": "string",
+            "nullable": true
+          },
+          "marcacionesManuales": {
+            "type": "string",
+            "nullable": true
+          },
+          "razonesManuales": {
+            "type": "string",
+            "nullable": true
+          },
+          "origenMarcaciones": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalPages": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AttendanceMatrixFilterDto": {
+        "required": [
+          "fechaFin",
+          "fechaInicio"
+        ],
+        "type": "object",
+        "properties": {
+          "fechaInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaFin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "companiaId": {
+            "type": "string",
+            "nullable": true
+          },
+          "areaId": {
+            "type": "string",
+            "nullable": true
+          },
+          "sedeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargoId": {
+            "type": "string",
+            "nullable": true
+          },
+          "centroCostoId": {
+            "type": "string",
+            "nullable": true
+          },
+          "sedeCodigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "ccCodigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "planillaId": {
+            "type": "string",
+            "nullable": true
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AttendanceMatrixPivotResponseDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "employees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmployeePivotData"
+            },
+            "nullable": true
+          },
+          "dateRange": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "nullable": true
+          },
+          "summary": {
+            "$ref": "#/components/schemas/AttendanceSummaryPivotDto"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "executionTime": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalPages": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AttendanceMatrixResponseDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "number",
+            "format": "double"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttendanceMatrixDto"
+            },
+            "nullable": true
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "executionTime": {
+            "type": "string",
+            "format": "date-span"
+          }
+        },
+        "additionalProperties": false
+      },
       "AttendanceSummaryDto": {
         "type": "object",
         "properties": {
@@ -4164,6 +5126,36 @@
             "format": "int32"
           },
           "porcentajeAsistencia": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AttendanceSummaryPivotDto": {
+        "type": "object",
+        "properties": {
+          "totalEmployees": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalWorkingDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalAbsences": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPermissions": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalHours": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalOvertimeHours": {
             "type": "number",
             "format": "double"
           }
@@ -4236,6 +5228,52 @@
         },
         "additionalProperties": false
       },
+      "DailyAttendanceData": {
+        "type": "object",
+        "properties": {
+          "diaSemana": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoDia": {
+            "type": "string",
+            "nullable": true
+          },
+          "turnoNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "entradaProgramada": {
+            "type": "string",
+            "nullable": true
+          },
+          "salidaProgramada": {
+            "type": "string",
+            "nullable": true
+          },
+          "marcacionesDelDia": {
+            "type": "string",
+            "nullable": true
+          },
+          "origenMarcaciones": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoPermiso": {
+            "type": "string",
+            "nullable": true
+          },
+          "entradaReal": {
+            "type": "string",
+            "nullable": true
+          },
+          "salidaReal": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "DetalleUpdateDto": {
         "type": "object",
         "properties": {
@@ -4246,6 +5284,67 @@
           "timeIntervalId": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmployeePivotData": {
+        "type": "object",
+        "properties": {
+          "personalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "nroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "colaborador": {
+            "type": "string",
+            "nullable": true
+          },
+          "sede": {
+            "type": "string",
+            "nullable": true
+          },
+          "area": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargo": {
+            "type": "string",
+            "nullable": true
+          },
+          "centroCosto": {
+            "type": "string",
+            "nullable": true
+          },
+          "ccCodigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "compania": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaIngreso": {
+            "type": "string",
+            "nullable": true
+          },
+          "dailyData": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DailyAttendanceData"
+            },
+            "nullable": true
+          },
+          "totalHoras": {
+            "type": "number",
+            "format": "double"
+          },
+          "horasExtras": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -4879,6 +5978,109 @@
           "outTime": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "IclockTransactionDto": {
+        "type": "object",
+        "properties": {
+          "nroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreCompleto": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "areaDescripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "ccostoDescripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "turnoAlias": {
+            "type": "string",
+            "nullable": true
+          },
+          "terminalAlias": {
+            "type": "string",
+            "nullable": true
+          },
+          "punchTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "horarioAlias": {
+            "type": "string",
+            "nullable": true
+          },
+          "inTime": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "outTime": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "diaSemana": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "diaSemanaTexto": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "IclockTransactionDtoPagedResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IclockTransactionDto"
+            },
+            "nullable": true
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

@@ -1,6 +1,7 @@
+using fin_attendance_api;
 using Microsoft.AspNetCore.Mvc;
 
-namespace fin_attendance_api.Controllers
+namespace FibAttendanceApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

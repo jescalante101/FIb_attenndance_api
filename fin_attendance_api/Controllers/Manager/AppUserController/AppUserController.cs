@@ -7,7 +7,7 @@ using FibAttendanceApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FibAttendanceApi.Controllers.AppUserController
+namespace FibAttendanceApi.Controllers.Manager.AppUserController
 {
     /// <summary>
     /// Controlador para gestionar usuarios (AppUser).

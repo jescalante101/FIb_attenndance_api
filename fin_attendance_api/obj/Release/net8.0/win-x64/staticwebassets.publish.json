@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "m22LvxGDhDboe9l042FrAmKS4ZPIGCBxSebshZaLigM=",
+  "Source": "FibAttendanceApi",
+  "BasePath": "_content/FibAttendanceApi",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
