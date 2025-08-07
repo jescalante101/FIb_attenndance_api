@@ -45,6 +45,7 @@ namespace Dtos.Reportes.Matrix
         public string MarcacionesManuales { get; set; }
         public string RazonesManuales { get; set; }
         public string OrigenMarcaciones { get; set; }
+        public string Planilla { get; set; } // Nuevo campo para planilla
 
         // datos de paginación
         public int? TotalRecords { get; set; }

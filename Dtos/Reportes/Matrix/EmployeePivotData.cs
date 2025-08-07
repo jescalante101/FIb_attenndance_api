@@ -17,6 +17,7 @@ namespace Dtos.Reportes.Matrix
         public string CentroCosto { get; set; }
         public string CCCodigo { get; set; }
         public string Compania { get; set; }
+        public string Planilla { get; set; }
         public string FechaIngreso { get; set; }
         public Dictionary<DateTime, DailyAttendanceData> DailyData { get; set; } = new();
         public decimal TotalHoras { get; set; }

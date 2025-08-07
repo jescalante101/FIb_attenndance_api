@@ -779,6 +779,54 @@
   },
   {
     "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
+    "Method": "ExportCostCenterReport",
+    "RelativePath": "api/AttendanceMatrix/export-cost-center",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixFilterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
+    "Method": "ExportMarkingsReport",
+    "RelativePath": "api/AttendanceMatrix/export-markings",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixFilterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
+    "Method": "ExportWeeklyAttendanceReport",
+    "RelativePath": "api/AttendanceMatrix/export-weekly-attendance",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixFilterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
     "Method": "GetMatrix",
     "RelativePath": "api/AttendanceMatrix/matrix",
     "HttpMethod": "POST",

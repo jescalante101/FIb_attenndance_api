@@ -361,3 +361,13 @@ C:\Fib_Attendance\FIb_attenndance_api\fin_attendance_api\bin\Debug\net8.0\ExcelN
 C:\Fib_Attendance\FIb_attenndance_api\fin_attendance_api\bin\Debug\net8.0\RBush.dll
 C:\Fib_Attendance\FIb_attenndance_api\fin_attendance_api\bin\Debug\net8.0\SixLabors.Fonts.dll
 C:\Fib_Attendance\FIb_attenndance_api\fin_attendance_api\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\bin\Debug\net8.0\ClosedXML.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\bin\Debug\net8.0\ClosedXML.Parser.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\bin\Debug\net8.0\Dapper.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\bin\Debug\net8.0\RBush.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\proyects\fin_attendance_api\fin_attendance_api\obj\Debug\net8.0\FibAttendanceApi.sourcelink.json

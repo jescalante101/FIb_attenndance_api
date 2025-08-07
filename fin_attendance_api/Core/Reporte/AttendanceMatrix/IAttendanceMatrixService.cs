@@ -11,5 +11,12 @@ namespace FibAttendanceApi.Core.Reporte.AttendanceMatrix
         Task<byte[]> ExportToExcelAsync(AttendanceMatrixFilterDto filter);
         Task<AttendanceMatrixPivotResponseDto> GetAttendanceMatrixPivotAsync(AttendanceMatrixFilterDto filter); // NUEVO
 
+        Task<byte[]> ExportCostCenterReportAsync(AttendanceMatrixFilterDto filter);
+
+        Task<byte[]> ExportMarkingsReportAsync(AttendanceMatrixFilterDto filter);
+
+        Task<byte[]> ExportWeeklyAttendanceReportAsync(AttendanceMatrixFilterDto filter);
+
+
     }
 }

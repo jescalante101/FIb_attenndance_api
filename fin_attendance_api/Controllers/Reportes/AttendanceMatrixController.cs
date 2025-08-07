@@ -75,6 +75,111 @@ namespace FibAttendanceApi.Controllers.Reportes
             }
         }
 
+        [HttpPost("export-cost-center")]
+        public async Task<IActionResult> ExportCostCenterReport([FromBody] AttendanceMatrixFilterDto filter)
+        {
+            try
+            {
+                // Validaciones
+                if (filter.FechaFin < filter.FechaInicio)
+                {
+                    return BadRequest(new { message = "La fecha fin debe ser mayor o igual a la fecha inicio" });
+                }
+
+                var daysDifference = (filter.FechaFin - filter.FechaInicio).Days;
+                if (daysDifference > 31)
+                {
+                    return BadRequest(new { message = "El rango de fechas no puede ser mayor a 31 días" });
+                }
+
+                var excelData = await _attendanceMatrixService.ExportCostCenterReportAsync(filter);
+
+                var fileName = $"Reporte_Centro_Costos_{filter.FechaInicio:yyyyMMdd}_{filter.FechaFin:yyyyMMdd}_{DateTime.Now:HHmm}.xlsx";
+
+                return File(excelData,
+                           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                           fileName);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor al generar el reporte de centro de costos" });
+            }
+        }
+
+        [HttpPost("export-markings")]
+        public async Task<IActionResult> ExportMarkingsReport([FromBody] AttendanceMatrixFilterDto filter)
+        {
+            try
+            {
+                // Validaciones
+                if (filter.FechaFin < filter.FechaInicio)
+                {
+                    return BadRequest(new { message = "La fecha fin debe ser mayor o igual a la fecha inicio" });
+                }
+
+                var daysDifference = (filter.FechaFin - filter.FechaInicio).Days;
+                if (daysDifference > 31)
+                {
+                    return BadRequest(new { message = "El rango de fechas no puede ser mayor a 31 días" });
+                }
+
+                var excelData = await _attendanceMatrixService.ExportMarkingsReportAsync(filter);
+
+                var fileName = $"Reporte_Marcaciones_{filter.FechaInicio:yyyyMMdd}_{filter.FechaFin:yyyyMMdd}_{DateTime.Now:HHmm}.xlsx";
+
+                return File(excelData,
+                           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                           fileName);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor al generar el reporte de marcaciones" });
+            }
+        }
+
+        [HttpPost("export-weekly-attendance")]
+        public async Task<IActionResult> ExportWeeklyAttendanceReport([FromBody] AttendanceMatrixFilterDto filter)
+        {
+            try
+            {
+                // Validaciones
+                if (filter.FechaFin < filter.FechaInicio)
+                {
+                    return BadRequest(new { message = "La fecha fin debe ser mayor o igual a la fecha inicio" });
+                }
+
+                var daysDifference = (filter.FechaFin - filter.FechaInicio).Days;
+                if (daysDifference > 31)
+                {
+                    return BadRequest(new { message = "El rango de fechas no puede ser mayor a 31 días" });
+                }
+
+                var excelData = await _attendanceMatrixService.ExportWeeklyAttendanceReportAsync(filter);
+
+                var fileName = $"Asistencia_Semanal_{filter.FechaInicio:yyyyMMdd}_{filter.FechaFin:yyyyMMdd}_{DateTime.Now:HHmm}.xlsx";
+
+                return File(excelData,
+                           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                           fileName);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor al generar el reporte de asistencia semanal" });
+            }
+        }
+
         // En el controller, agregar:
         [HttpPost("pivot")]
         public async Task<ActionResult<AttendanceMatrixPivotResponseDto>> GetMatrixPivot([FromBody] AttendanceMatrixFilterDto filter)

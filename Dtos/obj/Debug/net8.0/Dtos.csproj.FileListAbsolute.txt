@@ -21,3 +21,4 @@ C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\Dtos.dll
 C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\refint\Dtos.dll
 C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\Dtos.pdb
 C:\Fib_Attendance\FIb_attenndance_api\Dtos\obj\Debug\net8.0\ref\Dtos.dll
+C:\proyects\fin_attendance_api\Dtos\obj\Debug\net8.0\Dtos.sourcelink.json

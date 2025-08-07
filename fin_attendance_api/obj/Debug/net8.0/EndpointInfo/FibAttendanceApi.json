@@ -1415,6 +1415,99 @@
         }
       }
     },
+    "/api/AttendanceMatrix/export-cost-center": {
+      "post": {
+        "tags": [
+          "AttendanceMatrix"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AttendanceMatrix/export-markings": {
+      "post": {
+        "tags": [
+          "AttendanceMatrix"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AttendanceMatrix/export-weekly-attendance": {
+      "post": {
+        "tags": [
+          "AttendanceMatrix"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/AttendanceMatrix/pivot": {
       "post": {
         "tags": [
@@ -4886,6 +4979,10 @@
             "type": "string",
             "nullable": true
           },
+          "planilla": {
+            "type": "string",
+            "nullable": true
+          },
           "totalRecords": {
             "type": "integer",
             "format": "int32",
@@ -5324,6 +5421,10 @@
             "nullable": true
           },
           "compania": {
+            "type": "string",
+            "nullable": true
+          },
+          "planilla": {
             "type": "string",
             "nullable": true
           },
