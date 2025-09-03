@@ -13,7 +13,7 @@ namespace Dtos.ScheduleExceptionsDto
         [StringLength(20, ErrorMessage = "El ID del empleado no puede exceder 20 caracteres")]
         public string EmployeeId { get; set; }
 
-        public int? AssignmentId { get; set; }
+        public int AssignmentId { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? ExceptionDate { get; set; }
@@ -43,7 +43,7 @@ namespace Dtos.ScheduleExceptionsDto
 
     public class EmployeeScheduleExceptionUpdateDto
     {
-        public int? AssignmentId { get; set; }
+        public int AssignmentId { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? ExceptionDate { get; set; }

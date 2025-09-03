@@ -17,6 +17,10 @@ namespace FibAttendanceApi.Core.Reporte.AttendanceMatrix
 
         Task<byte[]> ExportWeeklyAttendanceReportAsync(AttendanceMatrixFilterDto filter);
 
+        // Nuevos métodos para obtener datos JSON
+        Task<CostCenterReportDataDto> GetCostCenterDataAsync(AttendanceMatrixFilterDto filter);
+        Task<MarkingsReportDataDto> GetMarkingsDataAsync(AttendanceMatrixFilterDto filter);
+        Task<WeeklyAttendanceDataDto> GetWeeklyAttendanceDataAsync(AttendanceMatrixFilterDto filter);
 
     }
 }

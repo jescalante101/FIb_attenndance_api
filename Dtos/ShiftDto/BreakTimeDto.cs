@@ -24,5 +24,9 @@ namespace Dtos.ShiftDto
         public int LateIn { get; set; }
         public int MinEarlyIn { get; set; }
         public int MinLateIn { get; set; }
+
+        //
+        public string? CreatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
     }
 }

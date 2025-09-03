@@ -16,12 +16,23 @@ namespace Dtos.EmployeeShiftAssignmentDto
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string? Remarks { get; set; }
+
         public DateTime CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public string? UpdatedBy { get; set; }
+
         public int CreatedWeek { get; set; }
         public string NroDoc { get; set; }
         public string? AreaId { get; set; }
         public string AreaName { get; set; }
         public string? LocationId { get; set; }
         public string? LocationName { get; set; }  // Store the name of the location
+
+        public string? CompaniaId { get; set; }
+        public string? CcostId { get; set; }
+        public string? CcostDescription { get; set; }
     }
+
+
 }

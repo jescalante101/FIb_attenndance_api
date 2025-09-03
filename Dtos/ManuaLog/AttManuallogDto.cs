@@ -24,6 +24,13 @@ namespace Dtos.ManuaLog
         public bool IsMask { get; set; }
         public decimal? Temperature { get; set; }
         public string? NroDoc { get; set; }
+        public string? FullName { get; set; } // nuevo campo para el nombre del empleado
+
+        //fecha de creación y modificacion, usuario que modifico y actualizo
+        public string? CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string? UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 
     public class AttManuallogCreateDto
@@ -42,5 +49,10 @@ namespace Dtos.ManuaLog
         public bool IsMask { get; set; }
         public decimal? Temperature { get; set; }
         public string? NroDoc { get; set; }
+
+        // usuario que creo y actualizo
+        public string? CreatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
     }
+
 }

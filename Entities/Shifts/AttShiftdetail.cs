@@ -37,6 +37,20 @@ namespace Entities.Shifts
         [Required]
         public int TimeIntervalId { get; set; }
 
+        [Column("created_at")]
+        public DateTime? CreatedAt { get; set; }
+
+        [Column("updated_at")]
+        public DateTime? UpdatedAt { get; set; }
+
+        [Column("created_by")]
+        [StringLength(50)]
+        public string? CreatedBy { get; set; }
+
+        [Column("updated_by")]
+        [StringLength(50)]
+        public string? UpdatedBy { get; set; }
+
         // Navigation Properties
         [ForeignKey("ShiftId")]
         public virtual AttAttshift? Shift { get; set; }

@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Dtos.ShiftDto;
 using Entities.Manager;
 using Entities.Shifts;
@@ -14,57 +15,47 @@ namespace FibAttendanceApi.Controllers.ShiftController
     public class ShiftController : ControllerBase
     {
         private readonly ApplicationDbcontext _context;
-        public ShiftController(ApplicationDbcontext context)
+        private readonly IMapper _mapper;
+        public ShiftController(ApplicationDbcontext context,IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
 
-        [HttpGet("lstShifts")]
-        public async Task<ActionResult<IEnumerable<AttAttshift>>> getAttShift([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
-        {
-            var totalTransactions = await _context.AttAttshifts.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalTransactions / pageSize);
-
-            if (page < 1 || page > totalPages)
+        [HttpGet("shifts")] // Ruta más estándar
+        public async Task<ActionResult<IEnumerable<ShiftListDto>>> GetShifts(
+         [FromQuery] int page = 1,
+         [FromQuery] int pageSize = 10)
             {
-                return BadRequest("Número de páginas inválido");
+                var totalRecords = await _context.AttAttshifts.CountAsync();
+                var totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+                if (page < 1) page = 1;
+                if (page > totalPages && totalPages > 0) page = totalPages;
+
+                var query = _context.AttAttshifts
+                    .AsNoTracking() // Mejora el rendimiento para consultas de solo lectura
+                    .Include(s => s.AttShiftdetails) // Carga eficiente de los detalles (Evita N+1)
+                        .ThenInclude(sd => sd.TimeInterval); // Carga el TimeInterval anidado
+
+                // Ordenamos y PAGINAMOS EN LA BASE DE DATOS
+                var shiftsFromDb = await query
+                    .OrderBy(s => s.Alias)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                // Mapeamos los resultados a nuestros DTOs limpios
+                var shiftDtos = _mapper.Map<List<ShiftListDto>>(shiftsFromDb);
+
+                return Ok(new
+                {
+                    data = shiftDtos,
+                    totalRecords = totalRecords
+                });
             }
 
-            var lstAttShift = await _context.AttAttshifts
-                 .Select(shift => new
-                 {
-                     shift.Id,
-                     shift.Alias,
-                     shift.ShiftCycle,
-                     shift.CycleUnit,
-                     shift.AutoShift,
-                     shift.WorkDayOff,
-                     shift.WeekendType,
-                     horario = shift.AttShiftdetails
-                         .Select(det => new
-                         {
-                             det.DayIndex,
-                             det.TimeInterval.Alias,
-                             det.TimeInterval.InTime,
-                             det.TimeInterval.WorkTimeDuration
-                         })
-                         .Distinct()
-                         .ToList()
-                 })
-                 .Skip((page - 1) * pageSize)
-                 .Take(pageSize)
-                 .ToListAsync();
-
-
-            return Ok(
-                new
-                {
-                    data = lstAttShift,
-                    totalRecords = totalTransactions
-                });
-
-        }
 
         [HttpGet("shiftPorId/{id}")]
         public async Task<ActionResult> GetShiftById(int id)
@@ -256,37 +247,58 @@ namespace FibAttendanceApi.Controllers.ShiftController
             });
         }
 
-     
-
         private async Task<ShiftBaseDto> GetShiftBase(int id)
         {
-            var shift = await _context.AttAttshifts
-                .Where(s => s.Id == id)
-                .Select(shift => new ShiftBaseDto
-                {
-                    Id = shift.Id,
-                    Alias = shift.Alias ?? "Sin nombre",
-                    ShiftCycle = shift.ShiftCycle,
-                    CycleUnit = shift.CycleUnit,
-                    AutoShift = shift.AutoShift,
-                    WorkDayOff = shift.WorkDayOff,
-                    WeekendType = shift.WeekendType,
-                    Horario = shift.AttShiftdetails
-                        .Select(det => new ShiftDetailDto
-                        {
-                            DayIndex = det.DayIndex,
-                            Alias = det.TimeInterval.Alias ?? "Sin nombre",
-                            InTime = det.TimeInterval.InTime,
-                            WorkTimeDuration = det.TimeInterval.WorkTimeDuration,
-                            Id = det.TimeInterval.Id
-                        })
-                        .Distinct()
-                        .ToList()
-                })
-                .FirstOrDefaultAsync();
+            // PASO 1: Obtener la entidad principal (el turno) de forma simple.
+            // Esto es una consulta básica que EF Core nunca falla en traducir.
+            var shiftEntity = await _context.AttAttshifts
+                .AsNoTracking() // Mejora el rendimiento ya que no necesitamos rastrear cambios.
+                .FirstOrDefaultAsync(s => s.Id == id);
 
-            return shift;
+            if (shiftEntity == null)
+            {
+                return null;
+            }
+
+            // PASO 2: Obtener los detalles relacionados en una consulta COMPLETAMENTE SEPARADA.
+            // Incluimos TimeInterval para evitar más consultas a la BD después.
+            var allShiftDetails = await _context.AttShiftdetails
+                .AsNoTracking()
+                .Include(det => det.TimeInterval) // ¡Importante! Carga los datos de TimeInterval.
+                .Where(det => det.ShiftId == shiftEntity.Id) // Asumiendo que la FK se llama ShiftId.
+                .ToListAsync();
+
+            // PASO 3: Realizar la lógica de 'Distinct' (agrupación) EN MEMORIA.
+            // Esto ya no se traduce a SQL, es C# puro y no puede fallar.
+            var distinctDetails = allShiftDetails
+                .GroupBy(det => det.TimeIntervalId)
+                .Select(g => g.First())
+                .ToList();
+
+            // PASO 4: Construir manualmente el objeto DTO final con los datos que ya tenemos.
+            // Esto tampoco involucra a la base de datos.
+            var shiftDto = new ShiftBaseDto
+            {
+                Id = shiftEntity.Id,
+                Alias = shiftEntity.Alias ?? "Sin nombre",
+                ShiftCycle = shiftEntity.ShiftCycle,
+                CycleUnit = shiftEntity.CycleUnit,
+                AutoShift = shiftEntity.AutoShift,
+                WorkDayOff = shiftEntity.WorkDayOff,
+                WeekendType = shiftEntity.WeekendType,
+                Horario = distinctDetails.Select(det => new ShiftDetailDto
+                {
+                    DayIndex = det.DayIndex,
+                    Alias = det.TimeInterval.Alias ?? "Sin nombre",
+                    InTime = det.TimeInterval.InTime,
+                    WorkTimeDuration = det.TimeInterval.WorkTimeDuration,
+                    Id = det.TimeInterval.Id
+                }).ToList()
+            };
+
+            return shiftDto;
         }
+
 
         private async Task<EmployeeShiftAssignment> GetAssignment(int assignmentId)
         {
@@ -486,6 +498,8 @@ namespace FibAttendanceApi.Controllers.ShiftController
                 WorkDayOff = dto.WorkDayOff,
                 DayOffType = dto.DayOffType,
                 AutoShift = dto.AutoShift,
+                CreatedAt = dto.CreatedAt ?? DateTime.Now,
+                CreatedBy = dto.CreatedBy,
                 AttShiftdetails = new List<AttShiftdetail>()
             };
 
@@ -516,47 +530,72 @@ namespace FibAttendanceApi.Controllers.ShiftController
         [HttpPut("actualizarShift/{id:int}")]
         public async Task<IActionResult> ActualizarShift(int id, [FromBody] ShiftUpdateDto dto)
         {
-            var shift = await _context.AttAttshifts
-                                      .Include(s => s.AttShiftdetails)
-                                      .FirstOrDefaultAsync(s => s.Id == id);
+            using var transaction = await _context.Database.BeginTransactionAsync();
 
-            if (shift == null)
-                return NotFound("Shift no encontrado");
-
-            // 1. Actualizo propiedades simples
-            shift.Alias = dto.Alias;
-            shift.CycleUnit = dto.CycleUnit;
-            shift.ShiftCycle = dto.ShiftCycle;
-            shift.WorkWeekend = dto.WorkWeekend;
-            shift.WeekendType = dto.WeekendType;
-            shift.WorkDayOff = dto.WorkDayOff;
-            shift.DayOffType = dto.DayOffType;
-            shift.AutoShift = dto.AutoShift;
-
-            // 2. Elimino los detalles actuales
-            _context.AttShiftdetails.RemoveRange(shift.AttShiftdetails);
-
-            // 3. Agrego los nuevos
-            foreach (var det in dto.Detalles)
+            try
             {
-                var intervalo = await _context.AttTimeintervals.FindAsync(det.TimeIntervalId);
-                if (intervalo == null)
-                    return BadRequest($"No existe el intervalo con id {det.TimeIntervalId}");
+                var shift = await _context.AttAttshifts.FindAsync(id);
+                if (shift == null)
+                    return NotFound("Shift no encontrado");
 
-                var detalle = new AttShiftdetail
+                // 1. Actualizar propiedades del shift
+                shift.Alias = dto.Alias;
+                shift.CycleUnit = dto.CycleUnit;
+                shift.ShiftCycle = dto.ShiftCycle;
+                shift.WorkWeekend = dto.WorkWeekend;
+                shift.WeekendType = dto.WeekendType;
+                shift.WorkDayOff = dto.WorkDayOff;
+                shift.DayOffType = dto.DayOffType;
+                shift.AutoShift = dto.AutoShift;
+                shift.UpdatedAt = dto.UpdatedAt ?? DateTime.Now;
+                shift.UpdatedBy = dto.UpdatedBy;
+
+                // 2. Eliminar detalles existentes con SQL crudo
+                await _context.Database.ExecuteSqlRawAsync(
+                    "DELETE FROM att_shiftdetail WHERE shift_id = {0}", id);
+
+                // 3. Guardar cambios del shift primero
+                await _context.SaveChangesAsync();
+
+                // 4. Insertar nuevos detalles UNO POR UNO (esto evita el MERGE)
+                foreach (var det in dto.Detalles)
                 {
-                    InTime = intervalo.InTime,
-                    OutTime = intervalo.InTime.AddMinutes(intervalo.WorkTimeDuration),
-                    DayIndex = det.DayIndex,
-                    TimeIntervalId = det.TimeIntervalId,
-                    ShiftId = shift.Id     // explícito
-                };
-                shift.AttShiftdetails.Add(detalle);
-            }
+                    var intervalo = await _context.AttTimeintervals.FindAsync(det.TimeIntervalId);
+                    if (intervalo == null)
+                    {
+                        await transaction.RollbackAsync();
+                        return BadRequest($"No existe el intervalo con id {det.TimeIntervalId}");
+                    }
 
-            await _context.SaveChangesAsync();
-            return Ok(new { mensaje = "Shift actualizado correctamente", id = shift.Id });
+                    var detalle = new AttShiftdetail
+                    {
+                        InTime = intervalo.InTime,
+                        OutTime = intervalo.InTime.AddMinutes(intervalo.WorkTimeDuration),
+                        DayIndex = det.DayIndex,
+                        TimeIntervalId = det.TimeIntervalId,
+                        ShiftId = id,
+                        CreatedAt = DateTime.Now,
+                        CreatedBy = dto.UpdatedBy ?? "system",
+                        UpdatedAt = DateTime.Now,
+                        UpdatedBy = dto.UpdatedBy ?? "system"
+                    };
+
+                    // ← CLAVE: Add individual + SaveChanges individual
+                    _context.AttShiftdetails.Add(detalle);
+                    await _context.SaveChangesAsync(); // Guardar cada uno por separado
+                }
+
+                await transaction.CommitAsync();
+                return Ok(new { mensaje = "Shift actualizado correctamente", id = shift.Id });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return BadRequest(new { error = ex.Message, innerException = ex.InnerException?.Message });
+            }
         }
+
+
 
         // ENDPOINT para eliminar un shift
         [HttpDelete("eliminarShift/{id:int}")]

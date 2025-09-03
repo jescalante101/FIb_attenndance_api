@@ -192,5 +192,113 @@ namespace FibAttendanceApi.Controllers.Reportes
             return Ok(result);
         }
 
+        [HttpPost("cost-center-data")]
+        public async Task<ActionResult<CostCenterReportDataDto>> GetCostCenterData([FromBody] AttendanceMatrixFilterDto filter)
+        {
+            try
+            {
+                // Validaciones
+                if (filter.FechaFin < filter.FechaInicio)
+                {
+                    return BadRequest(new { message = "La fecha fin debe ser mayor o igual a la fecha inicio" });
+                }
+
+                var daysDifference = (filter.FechaFin - filter.FechaInicio).Days;
+                if (daysDifference > 31)
+                {
+                    return BadRequest(new { message = "El rango de fechas no puede ser mayor a 31 días" });
+                }
+
+                var result = await _attendanceMatrixService.GetCostCenterDataAsync(filter);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor al obtener datos de centro de costos" });
+            }
+        }
+
+        [HttpPost("markings-data")]
+        public async Task<ActionResult<MarkingsReportDataDto>> GetMarkingsData([FromBody] AttendanceMatrixFilterDto filter)
+        {
+            try
+            {
+                // Validaciones
+                if (filter.FechaFin < filter.FechaInicio)
+                {
+                    return BadRequest(new { message = "La fecha fin debe ser mayor o igual a la fecha inicio" });
+                }
+
+                var daysDifference = (filter.FechaFin - filter.FechaInicio).Days;
+                if (daysDifference > 31)
+                {
+                    return BadRequest(new { message = "El rango de fechas no puede ser mayor a 31 días" });
+                }
+
+                var result = await _attendanceMatrixService.GetMarkingsDataAsync(filter);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor al obtener datos de marcaciones" });
+            }
+        }
+
+        [HttpPost("weekly-attendance-data")]
+        public async Task<ActionResult<WeeklyAttendanceDataDto>> GetWeeklyAttendanceData([FromBody] AttendanceMatrixFilterDto filter)
+        {
+            try
+            {
+                // Validaciones
+                if (filter.FechaFin < filter.FechaInicio)
+                {
+                    return BadRequest(new { message = "La fecha fin debe ser mayor o igual a la fecha inicio" });
+                }
+
+                var daysDifference = (filter.FechaFin - filter.FechaInicio).Days;
+                if (daysDifference > 31)
+                {
+                    return BadRequest(new { message = "El rango de fechas no puede ser mayor a 31 días" });
+                }
+
+                var result = await _attendanceMatrixService.GetWeeklyAttendanceDataAsync(filter);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor al obtener datos de asistencia semanal" });
+            }
+        }
+
     }
 }

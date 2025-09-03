@@ -16,6 +16,8 @@ namespace Dtos.ShiftDto
         public bool WorkDayOff { get; set; }
         public short DayOffType { get; set; }
         public bool AutoShift { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
         public List<ShiftDetailCreateDto> Detalles { get; set; }
     }
 

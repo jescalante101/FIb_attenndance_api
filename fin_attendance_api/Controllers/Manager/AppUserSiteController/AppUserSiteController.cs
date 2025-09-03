@@ -1,9 +1,11 @@
-﻿
-
 using Entities.Manager;
 using FibAttendanceApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic; // Added for IEnumerable
+using System.Linq; // Added for Any()
+using System.Threading.Tasks; // Added for Task
+using Microsoft.AspNetCore.Authorization; // Added for Authorize
 
 namespace FibAttendanceApi.Controllers.Manager.AppUserSiteController
 {
@@ -12,6 +14,7 @@ namespace FibAttendanceApi.Controllers.Manager.AppUserSiteController
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // Added Authorize at class level
     public class AppUserSiteController : ControllerBase
     {
         private readonly ApplicationDbcontext _context;
@@ -76,7 +79,7 @@ namespace FibAttendanceApi.Controllers.Manager.AppUserSiteController
 
             // Valores por defecto
             appUserSite.Active ??= "Y";
-            appUserSite.CreationDate ??= DateTime.Now;
+            appUserSite.CreatedAt ??= DateTime.Now;
 
             _context.AppUserSites.Add(appUserSite);
             await _context.SaveChangesAsync();
@@ -110,7 +113,7 @@ namespace FibAttendanceApi.Controllers.Manager.AppUserSiteController
                     continue; // O manejar como conflicto si se prefiere
                 // Valores por defecto
                 appUserSite.Active ??= "Y";
-                appUserSite.CreationDate ??= DateTime.Now;
+                appUserSite.CreatedAt ??= DateTime.Now;
                 _context.AppUserSites.Add(appUserSite);
                 createdEntities.Add(appUserSite);
             }
@@ -143,7 +146,7 @@ namespace FibAttendanceApi.Controllers.Manager.AppUserSiteController
             existing.UserName = updatedEntity.UserName;
             existing.SiteName = updatedEntity.SiteName;
             existing.CreatedBy = updatedEntity.CreatedBy;
-            existing.CreationDate = updatedEntity.CreationDate;
+            existing.UpdatedAt = DateTime.Now;
             existing.Active = updatedEntity.Active;
 
             _context.Entry(existing).State = EntityState.Modified;

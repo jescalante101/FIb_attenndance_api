@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "FibAttendanceApi",
-    "version": "1.0"
+    "title": "Fib Attendance API",
+    "version": "v1"
   },
   "paths": {
     "/api/AppUser": {
@@ -18,7 +18,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AppUser"
+                    "$ref": "#/components/schemas/AppUserDto"
                   }
                 }
               },
@@ -26,7 +26,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AppUser"
+                    "$ref": "#/components/schemas/AppUserDto"
                   }
                 }
               },
@@ -34,7 +34,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AppUser"
+                    "$ref": "#/components/schemas/AppUserDto"
                   }
                 }
               }
@@ -50,17 +50,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AppUser"
+                "$ref": "#/components/schemas/AppUserCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AppUser"
+                "$ref": "#/components/schemas/AppUserCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AppUser"
+                "$ref": "#/components/schemas/AppUserCreateDto"
               }
             }
           }
@@ -145,17 +145,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/AppUser"
+                  "$ref": "#/components/schemas/AppUserDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AppUser"
+                  "$ref": "#/components/schemas/AppUserDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AppUser"
+                  "$ref": "#/components/schemas/AppUserDto"
                 }
               }
             }
@@ -181,17 +181,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AppUser"
+                "$ref": "#/components/schemas/AppUserUpdateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AppUser"
+                "$ref": "#/components/schemas/AppUserUpdateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AppUser"
+                "$ref": "#/components/schemas/AppUserUpdateDto"
               }
             }
           }
@@ -217,6 +217,37 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AppUser/login": {
+      "post": {
+        "tags": [
+          "AppUser"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -1556,6 +1587,150 @@
         }
       }
     },
+    "/api/AttendanceMatrix/cost-center-data": {
+      "post": {
+        "tags": [
+          "AttendanceMatrix"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CostCenterReportDataDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CostCenterReportDataDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CostCenterReportDataDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/AttendanceMatrix/markings-data": {
+      "post": {
+        "tags": [
+          "AttendanceMatrix"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarkingsReportDataDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarkingsReportDataDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarkingsReportDataDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/AttendanceMatrix/weekly-attendance-data": {
+      "post": {
+        "tags": [
+          "AttendanceMatrix"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttendanceMatrixFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeeklyAttendanceDataDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeeklyAttendanceDataDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeeklyAttendanceDataDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/AttManuallog": {
       "get": {
         "tags": [
@@ -1802,12 +1977,19 @@
         }
       }
     },
-    "/api/AttTimeInterval/lstHorarios": {
+    "/api/TimeIntervals": {
       "get": {
         "tags": [
           "AttTimeInterval"
         ],
         "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "page",
             "in": "query",
@@ -1835,7 +2017,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AttTimeinterval"
+                    "$ref": "#/components/schemas/TimeIntervalDetailDto"
                   }
                 }
               },
@@ -1843,7 +2025,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AttTimeinterval"
+                    "$ref": "#/components/schemas/TimeIntervalDetailDto"
                   }
                 }
               },
@@ -1851,66 +2033,54 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AttTimeinterval"
+                    "$ref": "#/components/schemas/TimeIntervalDetailDto"
                   }
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/AttTimeInterval/lstHoraiosMap": {
-      "get": {
+      },
+      "post": {
         "tags": [
           "AttTimeInterval"
         ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 15
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttTimeIntervalCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttTimeIntervalCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttTimeIntervalCreateDto"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/HorarioInfoDto"
-                  }
+                  "$ref": "#/components/schemas/AttTimeIntervalDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/HorarioInfoDto"
-                  }
+                  "$ref": "#/components/schemas/AttTimeIntervalDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/HorarioInfoDto"
-                  }
+                  "$ref": "#/components/schemas/AttTimeIntervalDto"
                 }
               }
             }
@@ -1918,7 +2088,7 @@
         }
       }
     },
-    "/api/AttTimeInterval/horarioPorId/{id}": {
+    "/api/TimeIntervals/{id}": {
       "get": {
         "tags": [
           "AttTimeInterval"
@@ -1940,121 +2110,63 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/HorarioInfoDto"
+                  "$ref": "#/components/schemas/AttTimeIntervalDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HorarioInfoDto"
+                  "$ref": "#/components/schemas/AttTimeIntervalDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HorarioInfoDto"
+                  "$ref": "#/components/schemas/AttTimeIntervalDto"
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/AttTimeInterval/nuevoHorario": {
-      "post": {
-        "tags": [
-          "AttTimeInterval"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/HorarioInfoDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/HorarioInfoDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/HorarioInfoDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttTimeinterval"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttTimeinterval"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttTimeinterval"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/AttTimeInterval/actualizarHorario": {
+      },
       "put": {
         "tags": [
           "AttTimeInterval"
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/HorarioInfoDto"
+                "$ref": "#/components/schemas/AttTimeIntervalUpdateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/HorarioInfoDto"
+                "$ref": "#/components/schemas/AttTimeIntervalUpdateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/HorarioInfoDto"
+                "$ref": "#/components/schemas/AttTimeIntervalUpdateDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttTimeinterval"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttTimeinterval"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttTimeinterval"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
-      }
-    },
-    "/api/AttTimeInterval/eliminarHorario/{id}": {
+      },
       "delete": {
         "tags": [
           "AttTimeInterval"
@@ -2073,6 +2185,303 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CompensatoryDay": {
+      "get": {
+        "tags": [
+          "CompensatoryDay"
+        ],
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "SearchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "StartDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "CompanyId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompensatoryDayDtoPaginatedList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompensatoryDayDtoPaginatedList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompensatoryDayDtoPaginatedList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CompensatoryDay"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompensatoryDayDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompensatoryDayDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompensatoryDayDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompensatoryDayDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompensatoryDayDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompensatoryDayDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CompensatoryDay/{id}": {
+      "get": {
+        "tags": [
+          "CompensatoryDay"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompensatoryDayDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompensatoryDayDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompensatoryDayDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "CompensatoryDay"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompensatoryDayDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompensatoryDayDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompensatoryDayDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CompensatoryDay"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CompensatoryDay/bulk": {
+      "post": {
+        "tags": [
+          "CompensatoryDay"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateCompensatoryDayDto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateCompensatoryDayDto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateCompensatoryDayDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompensatoryDayDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompensatoryDayDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompensatoryDayDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2472,6 +2881,20 @@
               "type": "string",
               "format": "date-time"
             }
+          },
+          {
+            "name": "locationId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "areaId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2549,7 +2972,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EmployeeShiftAssignment"
+                  "$ref": "#/components/schemas/CreateEmployeeShiftAssignmentDTO"
                 }
               }
             },
@@ -2557,7 +2980,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EmployeeShiftAssignment"
+                  "$ref": "#/components/schemas/CreateEmployeeShiftAssignmentDTO"
                 }
               }
             },
@@ -2565,7 +2988,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EmployeeShiftAssignment"
+                  "$ref": "#/components/schemas/CreateEmployeeShiftAssignmentDTO"
                 }
               }
             }
@@ -2819,6 +3242,309 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/employee-schedule-assignment/idsPorRangoDeFechas": {
+      "get": {
+        "tags": [
+          "EmployeeShiftAssignment"
+        ],
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employee-schedule-assignment/employee/{employeeId}/current-week-schedule": {
+      "get": {
+        "tags": [
+          "EmployeeShiftAssignment"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employee-schedule-assignment/employee/{employeeId}/date-range-schedule": {
+      "get": {
+        "tags": [
+          "EmployeeShiftAssignment"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ExtraHoursReport/data": {
+      "post": {
+        "tags": [
+          "ExtraHoursReport"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFiltersHE"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFiltersHE"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFiltersHE"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ExtraHoursReport/export": {
+      "post": {
+        "tags": [
+          "ExtraHoursReport"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFiltersHE"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFiltersHE"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFiltersHE"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ExtraHoursReport/summary": {
+      "post": {
+        "tags": [
+          "ExtraHoursReport"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFiltersHE"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFiltersHE"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportFiltersHE"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -3130,7 +3856,1682 @@
         }
       }
     },
-    "/api/Shift/lstShifts": {
+    "/api/Ohlds": {
+      "get": {
+        "tags": [
+          "Ohlds"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ohld"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ohld"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ohld"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Ohlds"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ohld"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ohld"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ohld"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ohld"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ohld"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ohld"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Ohlds/{id}": {
+      "get": {
+        "tags": [
+          "Ohlds"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ohld"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ohld"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ohld"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Ohlds"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ohld"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ohld"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ohld"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Ohlds"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Ohlds/synchronize": {
+      "post": {
+        "tags": [
+          "Ohlds"
+        ],
+        "parameters": [
+          {
+            "name": "useFullReplacement",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SynchronizationResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SynchronizationResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SynchronizationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Ohlds/bulk": {
+      "post": {
+        "tags": [
+          "Ohlds"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Ohld"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Ohld"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Ohld"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Permission": {
+      "get": {
+        "tags": [
+          "Permission"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PermissionDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PermissionDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PermissionDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Permission"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermissionCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermissionCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermissionCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Permission/{permissionId}": {
+      "get": {
+        "tags": [
+          "Permission"
+        ],
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Permission"
+        ],
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermissionUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermissionUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermissionUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Permission"
+        ],
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{userId}/permissions": {
+      "get": {
+        "tags": [
+          "Permission"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserPermissionDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserPermissionDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserPermissionDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{userId}/permissions/{permissionId}": {
+      "post": {
+        "tags": [
+          "Permission"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "permissionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Permission"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "permissionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Personal": {
+      "get": {
+        "tags": [
+          "Personal"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonalDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Personal"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonalDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonalDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/Personal/{id}": {
+      "get": {
+        "tags": [
+          "Personal"
+        ],
+        "operationId": "GetPersonal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Personal"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePersonalDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePersonalDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePersonalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Personal"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/Personal/personal-transfers/massive": {
+      "post": {
+        "tags": [
+          "Personal"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePersonalDto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePersonalDto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePersonalDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonalDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/Personal/branch/{branchId}": {
+      "get": {
+        "tags": [
+          "Personal"
+        ],
+        "parameters": [
+          {
+            "name": "branchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonalDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/Personal/area/{areaId}": {
+      "get": {
+        "tags": [
+          "Personal"
+        ],
+        "parameters": [
+          {
+            "name": "areaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonalDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/Personal/paginated": {
+      "get": {
+        "tags": [
+          "Personal"
+        ],
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "areaId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "costCenterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalDtoPaginatedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/Personal/paginated/advanced": {
+      "get": {
+        "tags": [
+          "Personal"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdById",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "areaId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "costCenterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "approvalStatus",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "Id"
+            }
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "desc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalDtoPaginatedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/PersonnelWhitelist": {
+      "get": {
+        "tags": [
+          "PersonnelWhitelist"
+        ],
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "FilterText",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "IsAscending",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistDtoPagedResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistDtoPagedResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistDtoPagedResultDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PersonnelWhitelist"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonnelWhitelistCreateEditDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonnelWhitelistCreateEditDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonnelWhitelistCreateEditDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonnelWhitelist/{id}": {
+      "get": {
+        "tags": [
+          "PersonnelWhitelist"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PersonnelWhitelist"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonnelWhitelistCreateEditDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonnelWhitelistCreateEditDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonnelWhitelistCreateEditDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PersonnelWhitelist"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PersonnelWhitelist/bulk": {
+      "post": {
+        "tags": [
+          "PersonnelWhitelist"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistCreateEditDto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistCreateEditDto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PersonnelWhitelistCreateEditDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Shift/shifts": {
       "get": {
         "tags": [
           "Shift"
@@ -3163,7 +5564,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AttAttshift"
+                    "$ref": "#/components/schemas/ShiftListDto"
                   }
                 }
               },
@@ -3171,7 +5572,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AttAttshift"
+                    "$ref": "#/components/schemas/ShiftListDto"
                   }
                 }
               },
@@ -3179,7 +5580,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AttAttshift"
+                    "$ref": "#/components/schemas/ShiftListDto"
                   }
                 }
               }
@@ -3892,6 +6293,10 @@
   "components": {
     "schemas": {
       "AppUser": {
+        "required": [
+          "passwordHash",
+          "userName"
+        ],
         "type": "object",
         "properties": {
           "userId": {
@@ -3899,6 +6304,54 @@
             "format": "int32"
           },
           "userName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "passwordHash": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "firstName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
             "maxLength": 50,
             "minLength": 0,
             "type": "string",
@@ -3909,6 +6362,106 @@
             "items": {
               "$ref": "#/components/schemas/AppUserSite"
             },
+            "nullable": true
+          },
+          "userPermissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserPermission"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AppUserCreateDto": {
+        "required": [
+          "email",
+          "password",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "userName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "maxLength": 100,
+            "minLength": 8,
+            "type": "string"
+          },
+          "firstName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updateBY": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AppUserDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -3951,9 +6504,20 @@
             "type": "string",
             "nullable": true
           },
-          "creationDate": {
+          "createdAt": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
             "nullable": true
           },
           "active": {
@@ -3964,6 +6528,51 @@
           },
           "user": {
             "$ref": "#/components/schemas/AppUser"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AppUserUpdateDto": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "password": {
+            "maxLength": 100,
+            "minLength": 8,
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4211,6 +6820,28 @@
           "autoShift": {
             "type": "boolean"
           },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
           "attShiftdetails": {
             "type": "array",
             "items": {
@@ -4301,6 +6932,28 @@
             "type": "integer",
             "format": "int32"
           },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
           "attTimeintervalBreakTimes": {
             "type": "array",
             "items": {
@@ -4369,6 +7022,14 @@
             "nullable": true
           },
           "nroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
             "type": "string",
             "nullable": true
           }
@@ -4442,6 +7103,28 @@
           },
           "nroDoc": {
             "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
           }
         },
@@ -4522,11 +7205,456 @@
             "type": "integer",
             "format": "int32"
           },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
           "shift": {
             "$ref": "#/components/schemas/AttAttshift"
           },
           "timeInterval": {
             "$ref": "#/components/schemas/AttTimeinterval"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AttTimeIntervalCreateDto": {
+        "required": [
+          "alias"
+        ],
+        "type": "object",
+        "properties": {
+          "alias": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "useMode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "inTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "workTimeDuration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "workDay": {
+            "type": "number",
+            "format": "double"
+          },
+          "companyId": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "inRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "outRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowLate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowLeaveEarly": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalMarkings": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "earlyIn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lateOut": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minEarlyIn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minLateOut": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv1Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv2Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv3Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "punchInStartTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "punchInEndTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "punchOutStartTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "punchOutEndTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "roundingThresholdMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "breakTimeIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AttTimeIntervalDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alias": {
+            "type": "string",
+            "nullable": true
+          },
+          "useMode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "inTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "workTimeDuration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "workDay": {
+            "type": "number",
+            "format": "double"
+          },
+          "companiaId": {
+            "type": "string",
+            "nullable": true
+          },
+          "inRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "outRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowLate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowLeaveEarly": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalMarkings": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "earlyIn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lateOut": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minEarlyIn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minLateOut": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv1Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv2Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv3Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "punchInWindow": {
+            "type": "string",
+            "nullable": true
+          },
+          "punchOutWindow": {
+            "type": "string",
+            "nullable": true
+          },
+          "roundingThresholdMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "breaks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BreakTimeDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AttTimeIntervalUpdateDto": {
+        "required": [
+          "alias",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alias": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "useMode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "inTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "workTimeDuration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "workDay": {
+            "type": "number",
+            "format": "double"
+          },
+          "companyId": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "inRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "outRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowLate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "allowLeaveEarly": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalMarkings": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "earlyIn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lateOut": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minEarlyIn": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minLateOut": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv1": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv1Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv2": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv2Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv3": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtimeLv3Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "punchInStartTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "punchInEndTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "punchOutStartTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "punchOutEndTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "roundingThresholdMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "breakTimeIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4681,7 +7809,55 @@
             "type": "integer",
             "format": "int32"
           },
+          "overtimeLv1Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv2Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv3Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "companiaId": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
           "totalMarkings": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "roundingThresholdMinutes": {
             "type": "integer",
             "format": "int32",
             "nullable": true
@@ -5259,6 +8435,24 @@
         },
         "additionalProperties": false
       },
+      "BreakTimeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alias": {
+            "type": "string",
+            "nullable": true
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "BreakTimeInfoDto": {
         "type": "object",
         "properties": {
@@ -5321,6 +8515,549 @@
           "minLateIn": {
             "type": "integer",
             "format": "int32"
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompensatoryDayDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "assignmentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "holidayWorkedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "compensatoryDayOffDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeFullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeLocation": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompensatoryDayDtoPaginatedList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompensatoryDayDto"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CostCenterDayValueDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayValue": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "specificPermissionType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CostCenterEmployeeDto": {
+        "type": "object",
+        "properties": {
+          "itemNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "nroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "colaborador": {
+            "type": "string",
+            "nullable": true
+          },
+          "area": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargo": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaIngreso": {
+            "type": "string",
+            "nullable": true
+          },
+          "planilla": {
+            "type": "string",
+            "nullable": true
+          },
+          "weekData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CostCenterWeekDataDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CostCenterReportContentDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaFin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "weekGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeekGroupDto"
+            },
+            "nullable": true
+          },
+          "employees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CostCenterEmployeeDto"
+            },
+            "nullable": true
+          },
+          "summary": {
+            "$ref": "#/components/schemas/CostCenterSummaryDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CostCenterReportDataDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "executionTime": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "content": {
+            "$ref": "#/components/schemas/CostCenterReportContentDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CostCenterSummaryDto": {
+        "type": "object",
+        "properties": {
+          "totalEmployees": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalWorkingDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalAbsences": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPermissions": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "conceptCounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CostCenterWeekDataDto": {
+        "type": "object",
+        "properties": {
+          "weekNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "turno": {
+            "type": "string",
+            "nullable": true
+          },
+          "dayValues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CostCenterDayValueDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateCompensatoryDayDto": {
+        "required": [
+          "assignmentId",
+          "compensatoryDayOffDate",
+          "employeeId",
+          "holidayWorkedDate"
+        ],
+        "type": "object",
+        "properties": {
+          "employeeId": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "assignmentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "holidayWorkedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "compensatoryDayOffDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "remarks": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "companyId": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateEmployeeShiftAssignmentDTO": {
+        "required": [
+          "createdAt",
+          "shiftId",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "employeeId": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "shiftId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "fullNameEmployee": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "shiftDescription": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "nroDoc": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "areaId": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "areaDescription": {
+            "maxLength": 80,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "locationId": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "locationName": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "ccostId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "ccostDescription": {
+            "maxLength": 70,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "companiaId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePersonalDto": {
+        "required": [
+          "areaDescription",
+          "areaId",
+          "branchDescription",
+          "branchId",
+          "companyId",
+          "costCenterDescription",
+          "costCenterId",
+          "createdBy",
+          "createdById",
+          "fullName",
+          "personalId",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "personalId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "fullName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "branchId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "branchDescription": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "areaId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "areaDescription": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "costCenterId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "costCenterDescription": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "observation": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "companyId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "createdById": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -5367,6 +9104,20 @@
           "salidaReal": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DateRangeDto": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -5468,8 +9219,7 @@
           },
           "assignmentId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "exceptionDate": {
             "type": "string",
@@ -5554,8 +9304,7 @@
           },
           "assignmentId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "exceptionDate": {
             "type": "string",
@@ -5612,8 +9361,7 @@
         "properties": {
           "assignmentId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "exceptionDate": {
             "type": "string",
@@ -5787,6 +9535,17 @@
             "type": "string",
             "nullable": true
           },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
           "fullNameEmployee": {
             "maxLength": 255,
             "minLength": 0,
@@ -5825,6 +9584,24 @@
           },
           "locationName": {
             "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "ccostId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "ccostDescription": {
+            "maxLength": 70,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "companiaId": {
+            "maxLength": 30,
             "minLength": 0,
             "type": "string",
             "nullable": true
@@ -5872,6 +9649,19 @@
             "type": "string",
             "format": "date-time"
           },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
+          },
           "createdWeek": {
             "type": "integer",
             "format": "int32"
@@ -5893,6 +9683,18 @@
             "nullable": true
           },
           "locationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "companiaId": {
+            "type": "string",
+            "nullable": true
+          },
+          "ccostId": {
+            "type": "string",
+            "nullable": true
+          },
+          "ccostDescription": {
             "type": "string",
             "nullable": true
           }
@@ -5940,127 +9742,53 @@
         },
         "additionalProperties": false
       },
-      "HorarioInfoDto": {
+      "Hld1": {
         "type": "object",
         "properties": {
-          "idHorio": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nombre": {
+          "hldCode": {
+            "maxLength": 20,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
-          "tipo": {
-            "type": "integer",
-            "format": "int32"
+          "strDate": {
+            "type": "string",
+            "format": "date-time"
           },
-          "horaEntrada": {
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "rmrks": {
+            "maxLength": 50,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
-          "horaSalida": {
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "maxLength": 50,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
-          "tiempoTrabajo": {
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
-          "descanso": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "diasLaboral": {
-            "type": "number",
-            "format": "double"
-          },
-          "tipoTrabajo": {
-            "type": "string",
-            "nullable": true
-          },
-          "horaEntradaDesde": {
-            "type": "string",
-            "nullable": true
-          },
-          "horaEntradaHasta": {
-            "type": "string",
-            "nullable": true
-          },
-          "horaSalidaDesde": {
-            "type": "string",
-            "nullable": true
-          },
-          "horaSalidaHasta": {
-            "type": "string",
-            "nullable": true
-          },
-          "entradaTemprana": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "entradaTarde": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "minEntradaTemprana": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "minSalidaTarde": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hnivel": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hNivel1": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hNivel2": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hNivel3": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "marcarEntrada": {
-            "type": "boolean"
-          },
-          "marcarSalida": {
-            "type": "boolean"
-          },
-          "pLlegadaT": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pSalidaT": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tipoIntervalo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "periodoMarcacion": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hCambioDia": {
-            "type": "string",
-            "nullable": true
-          },
-          "basadoM": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalMarcaciones": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+          "ohld": {
+            "$ref": "#/components/schemas/Ohld"
           }
         },
         "additionalProperties": false
@@ -6186,6 +9914,304 @@
         },
         "additionalProperties": false
       },
+      "LoginDto": {
+        "required": [
+          "password",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "userName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MarkingsDayValueDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayValue": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "markingsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "rawMarkings": {
+            "type": "string",
+            "nullable": true
+          },
+          "specificPermissionType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MarkingsEmployeeDto": {
+        "type": "object",
+        "properties": {
+          "itemNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "nroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "colaborador": {
+            "type": "string",
+            "nullable": true
+          },
+          "area": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargo": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaIngreso": {
+            "type": "string",
+            "nullable": true
+          },
+          "planilla": {
+            "type": "string",
+            "nullable": true
+          },
+          "weekData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MarkingsWeekDataDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MarkingsReportContentDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaFin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "weekGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeekGroupDto"
+            },
+            "nullable": true
+          },
+          "employees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MarkingsEmployeeDto"
+            },
+            "nullable": true
+          },
+          "summary": {
+            "$ref": "#/components/schemas/MarkingsSummaryDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MarkingsReportDataDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "executionTime": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "content": {
+            "$ref": "#/components/schemas/MarkingsReportContentDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MarkingsSummaryDto": {
+        "type": "object",
+        "properties": {
+          "totalEmployees": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalWorkingDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalAbsences": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPermissions": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "averageMarkingsPerDay": {
+            "type": "number",
+            "format": "double"
+          },
+          "conceptCounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "markingsDistribution": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MarkingsWeekDataDto": {
+        "type": "object",
+        "properties": {
+          "weekNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "turno": {
+            "type": "string",
+            "nullable": true
+          },
+          "dayValues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MarkingsDayValueDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Ohld": {
+        "type": "object",
+        "properties": {
+          "hldCode": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "wndFrm": {
+            "maxLength": 1,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "wndTo": {
+            "maxLength": 1,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isCurYear": {
+            "maxLength": 1,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "ignrWnd": {
+            "maxLength": 1,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "weekNoRule": {
+            "maxLength": 1,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "hld1s": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Hld1"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "PaginatedAttendanceAnalysisRequestDto": {
         "required": [
           "fechaFin",
@@ -6262,6 +10288,376 @@
         },
         "additionalProperties": false
       },
+      "Permission": {
+        "required": [
+          "permissionKey",
+          "permissionName"
+        ],
+        "type": "object",
+        "properties": {
+          "permissionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "permissionKey": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "permissionName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "userPermissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserPermission"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermissionCreateDto": {
+        "required": [
+          "permissionKey",
+          "permissionName"
+        ],
+        "type": "object",
+        "properties": {
+          "permissionKey": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "permissionName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermissionDto": {
+        "type": "object",
+        "properties": {
+          "permissionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "permissionKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "permissionName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermissionUpdateDto": {
+        "type": "object",
+        "properties": {
+          "permissionKey": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "permissionName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonalDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "branchId": {
+            "type": "string",
+            "nullable": true
+          },
+          "branchDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "areaId": {
+            "type": "string",
+            "nullable": true
+          },
+          "areaDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "costCenterId": {
+            "type": "string",
+            "nullable": true
+          },
+          "costCenterDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "observation": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdById": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "approvalStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonalDtoPaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonalDto"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonnelWhitelistCreateEditDto": {
+        "required": [
+          "employeeId",
+          "employeeName"
+        ],
+        "type": "object",
+        "properties": {
+          "employeeId": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string"
+          },
+          "employeeName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
+          },
+          "position": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonnelWhitelistDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonnelWhitelistDtoPagedResultDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonnelWhitelistDto"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "hasPreviousPage": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "hasNextPage": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -6288,6 +10684,108 @@
           }
         },
         "additionalProperties": { }
+      },
+      "ReportFiltersHE": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeIds": {
+            "type": "string",
+            "nullable": true
+          },
+          "areaId": {
+            "type": "string",
+            "nullable": true
+          },
+          "sedeId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduleDayDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "scheduleId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "alias": {
+            "type": "string",
+            "nullable": true
+          },
+          "inTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "outTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "workTimeDurationMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isException": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduleResponseDto": {
+        "type": "object",
+        "properties": {
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullNameEmployee": {
+            "type": "string",
+            "nullable": true
+          },
+          "assignmentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "shiftInfo": {
+            "$ref": "#/components/schemas/ShiftDto"
+          },
+          "queryRange": {
+            "$ref": "#/components/schemas/DateRangeDto"
+          },
+          "schedule": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleDayDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "ShiftCreateDto": {
         "type": "object",
@@ -6321,11 +10819,62 @@
           "autoShift": {
             "type": "boolean"
           },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
           "detalles": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ShiftDetailCreateDto"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShiftDayDto": {
+        "type": "object",
+        "properties": {
+          "dayIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeIntervalAlias": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeIntervalId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "inTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "outTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "workHours": {
+            "type": "string",
+            "nullable": true
+          },
+          "breakHours": {
+            "type": "string",
+            "nullable": true
+          },
+          "overtimeHours": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalDuration": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -6341,6 +10890,81 @@
           "dayIndex": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShiftDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alias": {
+            "type": "string",
+            "nullable": true
+          },
+          "shiftCycle": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShiftListDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alias": {
+            "type": "string",
+            "nullable": true
+          },
+          "shiftCycle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cycleUnit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "autoShift": {
+            "type": "boolean"
+          },
+          "totals": {
+            "$ref": "#/components/schemas/ShiftTotalsDto"
+          },
+          "horario": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShiftDayDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShiftTotalsDto": {
+        "type": "object",
+        "properties": {
+          "totalWorkHours": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalBreakHours": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalOvertimeHours": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalShiftHours": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6376,6 +11000,15 @@
           },
           "autoShift": {
             "type": "boolean"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "nullable": true
           },
           "detalles": {
             "type": "array",
@@ -6426,9 +11059,20 @@
             "type": "string",
             "nullable": true
           },
-          "creationDate": {
+          "createdAt": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
             "nullable": true
           },
           "active": {
@@ -6491,14 +11135,276 @@
             "type": "string",
             "nullable": true
           },
-          "creationDate": {
+          "createdAt": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
             "nullable": true
           },
           "active": {
             "maxLength": 1,
             "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SynchronizationResultDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalRecordsProcessed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "newRecordsAdded": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "existingRecordsUpdated": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "recordsDeleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "synchronizedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimeIntervalDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alias": {
+            "type": "string",
+            "nullable": true
+          },
+          "formattedStartTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "scheduledEndTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalDurationMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "normalWorkDay": {
+            "type": "string",
+            "nullable": true
+          },
+          "breaks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BreakTimeDto"
+            },
+            "nullable": true
+          },
+          "overtimeLv1Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv2Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeLv3Percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCompensatoryDayDto": {
+        "required": [
+          "compensatoryDayOffDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "compensatoryDayOffDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "maxLength": 1,
+            "minLength": 0,
+            "type": "string"
+          },
+          "remarks": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePersonalDto": {
+        "required": [
+          "updatedBy"
+        ],
+        "type": "object",
+        "properties": {
+          "branchId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "branchDescription": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "areaId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "areaDescription": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "costCenterId": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "costCenterDescription": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "observation": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "approvalStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserPermission": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "permissionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user": {
+            "$ref": "#/components/schemas/AppUser"
+          },
+          "permission": {
+            "$ref": "#/components/schemas/Permission"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserPermissionDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "permissionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "permissionKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "permissionName": {
             "type": "string",
             "nullable": true
           }
@@ -6527,7 +11433,343 @@
           }
         },
         "additionalProperties": false
+      },
+      "WeekGroupDto": {
+        "type": "object",
+        "properties": {
+          "weekNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dates": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "nullable": true
+          },
+          "dayNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "dayNumbers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyAttendanceContentDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaFin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "weekGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeekGroupDto"
+            },
+            "nullable": true
+          },
+          "employees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeeklyAttendanceEmployeeDto"
+            },
+            "nullable": true
+          },
+          "summary": {
+            "$ref": "#/components/schemas/WeeklyAttendanceSummaryDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyAttendanceDataDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "executionTime": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "content": {
+            "$ref": "#/components/schemas/WeeklyAttendanceContentDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyAttendanceDayDataDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "entradaReal": {
+            "type": "string",
+            "nullable": true
+          },
+          "salidaReal": {
+            "type": "string",
+            "nullable": true
+          },
+          "horasTrabjadas": {
+            "type": "number",
+            "format": "double"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoPermiso": {
+            "type": "string",
+            "nullable": true
+          },
+          "estadoColor": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyAttendanceEmployeeDto": {
+        "type": "object",
+        "properties": {
+          "itemNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "nroDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "colaborador": {
+            "type": "string",
+            "nullable": true
+          },
+          "area": {
+            "type": "string",
+            "nullable": true
+          },
+          "centroCosto": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargo": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaIngreso": {
+            "type": "string",
+            "nullable": true
+          },
+          "planilla": {
+            "type": "string",
+            "nullable": true
+          },
+          "weekData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeeklyAttendanceWeekDataDto"
+            },
+            "nullable": true
+          },
+          "globalTotals": {
+            "$ref": "#/components/schemas/WeeklyAttendanceGlobalTotalsDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyAttendanceGlobalTotalsDto": {
+        "type": "object",
+        "properties": {
+          "totalHoras": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalExtras": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyAttendanceSummaryDto": {
+        "type": "object",
+        "properties": {
+          "totalEmployees": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalWorkingDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalAbsences": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPermissions": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalHorasGlobales": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalHorasExtrasGlobales": {
+            "type": "number",
+            "format": "double"
+          },
+          "averageHoursPerEmployee": {
+            "type": "number",
+            "format": "double"
+          },
+          "averageOvertimePerEmployee": {
+            "type": "number",
+            "format": "double"
+          },
+          "conceptCounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "weekSummaries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeeklyAttendanceWeekSummaryDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyAttendanceWeekDataDto": {
+        "type": "object",
+        "properties": {
+          "weekNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "turno": {
+            "type": "string",
+            "nullable": true
+          },
+          "dayData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeeklyAttendanceDayDataDto"
+            },
+            "nullable": true
+          },
+          "weekTotals": {
+            "$ref": "#/components/schemas/WeeklyAttendanceWeekTotalsDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyAttendanceWeekSummaryDto": {
+        "type": "object",
+        "properties": {
+          "weekNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalHorasSemana": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalExtrasSemana": {
+            "type": "number",
+            "format": "double"
+          },
+          "empleadosConDatos": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyAttendanceWeekTotalsDto": {
+        "type": "object",
+        "properties": {
+          "horasTrabajadas": {
+            "type": "number",
+            "format": "double"
+          },
+          "horasExtras": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Please enter a valid token",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

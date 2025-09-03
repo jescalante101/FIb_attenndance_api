@@ -1,16 +1,17 @@
-﻿
 using Dtos.ScheduleExceptionsDto;
 using Entities.Shifts;
 using FibAttendanceApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization; // Added for Authorize
 
 namespace FibAttendanceApi.Controllers.EmployeeScheduleExceptionController
 {
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize] // Added Authorize at class level
     public class EmployeeScheduleExceptionController : ControllerBase
     {
         private readonly ApplicationDbcontext _context;

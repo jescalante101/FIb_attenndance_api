@@ -32,7 +32,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Fib_Attendance\\FIb_attenndance_api\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Fib_Attendance\\FIb_attenndance_api\\Entities\\Entities.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -121,6 +125,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.19, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -202,31 +212,41 @@
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[15.0.1, )"
+              "version": "[12.0.0, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.105.0, )"
             },
             "Dapper": {
               "target": "Package",
               "version": "[2.1.66, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.19, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.7, )"
-            },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[9.0.7, )"
+              "version": "[8.0.19, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[9.0.7, )"
+              "version": "[8.0.19, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.7, )"
+              "version": "[8.0.19, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

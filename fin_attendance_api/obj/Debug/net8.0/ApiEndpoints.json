@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController",
     "Method": "GetAll",
     "RelativePath": "api/AppUser",
     "HttpMethod": "GET",
@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Entities.Manager.AppUser, Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.Manager.AppUserDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -20,7 +20,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController",
     "Method": "Create",
     "RelativePath": "api/AppUser",
     "HttpMethod": "POST",
@@ -28,8 +28,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "appUser",
-        "Type": "Entities.Manager.AppUser",
+        "Name": "appUserDto",
+        "Type": "Dtos.Manager.AppUserCreateDto",
         "IsRequired": true
       }
     ],
@@ -64,7 +64,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController",
     "Method": "GetById",
     "RelativePath": "api/AppUser/{userId}",
     "HttpMethod": "GET",
@@ -79,7 +79,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Entities.Manager.AppUser",
+        "Type": "Dtos.Manager.AppUserDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -90,7 +90,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController",
     "Method": "Update",
     "RelativePath": "api/AppUser/{userId}",
     "HttpMethod": "PUT",
@@ -104,14 +104,14 @@
       },
       {
         "Name": "updatedEntity",
-        "Type": "Entities.Manager.AppUser",
+        "Type": "Dtos.Manager.AppUserUpdateDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController",
     "Method": "Delete",
     "RelativePath": "api/AppUser/{userId}",
     "HttpMethod": "DELETE",
@@ -127,7 +127,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController.AppUserController",
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController",
     "Method": "GetSedesYAreasDeUsuario",
     "RelativePath": "api/AppUser/{userId}/sedes-areas",
     "HttpMethod": "GET",
@@ -137,6 +137,22 @@
       {
         "Name": "userId",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.AppUserController",
+    "Method": "Login",
+    "RelativePath": "api/AppUser/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDto",
+        "Type": "Dtos.Manager.LoginDto",
         "IsRequired": true
       }
     ],
@@ -763,6 +779,32 @@
   },
   {
     "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
+    "Method": "GetCostCenterData",
+    "RelativePath": "api/AttendanceMatrix/cost-center-data",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixFilterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Reportes.Matrix.CostCenterReportDataDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
     "Method": "ExportToExcel",
     "RelativePath": "api/AttendanceMatrix/export",
     "HttpMethod": "POST",
@@ -827,6 +869,32 @@
   },
   {
     "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
+    "Method": "GetMarkingsData",
+    "RelativePath": "api/AttendanceMatrix/markings-data",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixFilterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Reportes.Matrix.MarkingsReportDataDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
     "Method": "GetMatrix",
     "RelativePath": "api/AttendanceMatrix/matrix",
     "HttpMethod": "POST",
@@ -868,6 +936,32 @@
     "ReturnTypes": [
       {
         "Type": "Dtos.Reportes.Matrix.AttendanceMatrixPivotResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.AttendanceMatrixController",
+    "Method": "GetWeeklyAttendanceData",
+    "RelativePath": "api/AttendanceMatrix/weekly-attendance-data",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "Dtos.Reportes.Matrix.AttendanceMatrixFilterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Reportes.Matrix.WeeklyAttendanceDataDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1023,22 +1117,52 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
-    "Method": "ActualizarHorario",
-    "RelativePath": "api/AttTimeInterval/actualizarHorario",
-    "HttpMethod": "PUT",
+    "ContainingType": "FibAttendanceApi.Controllers.Compensatory.CompensatoryDayController",
+    "Method": "GetCompensatoryDays",
+    "RelativePath": "api/CompensatoryDay",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "attTimeinterval",
-        "Type": "Dtos.TimeIntervalDto.HorarioInfoDto",
-        "IsRequired": true
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "CompanyId",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Entities.Shifts.AttTimeinterval",
+        "Type": "Dtos.ResponseDto.PaginatedList\u00601[[Dtos.Compensatory.CompensatoryDayDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1049,9 +1173,82 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
-    "Method": "EliminarHorario",
-    "RelativePath": "api/AttTimeInterval/eliminarHorario/{id}",
+    "ContainingType": "FibAttendanceApi.Controllers.Compensatory.CompensatoryDayController",
+    "Method": "PostCompensatoryDay",
+    "RelativePath": "api/CompensatoryDay",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "Dtos.Compensatory.CreateCompensatoryDayDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Compensatory.CompensatoryDayDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Compensatory.CompensatoryDayController",
+    "Method": "GetCompensatoryDay",
+    "RelativePath": "api/CompensatoryDay/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Compensatory.CompensatoryDayDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Compensatory.CompensatoryDayController",
+    "Method": "PutCompensatoryDay",
+    "RelativePath": "api/CompensatoryDay/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "Dtos.Compensatory.UpdateCompensatoryDayDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Compensatory.CompensatoryDayController",
+    "Method": "DeleteCompensatoryDay",
+    "RelativePath": "api/CompensatoryDay/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1065,110 +1262,22 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
-    "Method": "findById",
-    "RelativePath": "api/AttTimeInterval/horarioPorId/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Dtos.TimeIntervalDto.HorarioInfoDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
-    "Method": "getHorarioslst",
-    "RelativePath": "api/AttTimeInterval/lstHoraiosMap",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.TimeIntervalDto.HorarioInfoDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
-    "Method": "getListShiftDetails",
-    "RelativePath": "api/AttTimeInterval/lstHorarios",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Entities.Shifts.AttTimeinterval, Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
-    "Method": "GuardarHorario",
-    "RelativePath": "api/AttTimeInterval/nuevoHorario",
+    "ContainingType": "FibAttendanceApi.Controllers.Compensatory.CompensatoryDayController",
+    "Method": "PostBulkCompensatoryDays",
+    "RelativePath": "api/CompensatoryDay/bulk",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "attTimeinterval",
-        "Type": "Dtos.TimeIntervalDto.HorarioInfoDto",
+        "Name": "createDtos",
+        "Type": "System.Collections.Generic.List\u00601[[Dtos.Compensatory.CreateCompensatoryDayDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Entities.Shifts.AttTimeinterval",
+        "Type": "System.Collections.Generic.List\u00601[[Dtos.Compensatory.CompensatoryDayDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1179,7 +1288,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
     "Method": "DeleteAssignment",
     "RelativePath": "api/employee-schedule-assignment/delete/{id}",
     "HttpMethod": "DELETE",
@@ -1205,7 +1314,96 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
+    "Method": "GetCurrentWeeklySchedule",
+    "RelativePath": "api/employee-schedule-assignment/employee/{employeeId}/current-week-schedule",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.ShiftDto.ScheduleResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
+    "Method": "GetScheduleByDateRange",
+    "RelativePath": "api/employee-schedule-assignment/employee/{employeeId}/date-range-schedule",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.ShiftDto.ScheduleResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
     "Method": "GetAssignmentWithShift",
     "RelativePath": "api/employee-schedule-assignment/get-assignment-with-shift",
     "HttpMethod": "GET",
@@ -1251,7 +1449,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
     "Method": "GetAssignmentById",
     "RelativePath": "api/employee-schedule-assignment/get-by-id/{id}",
     "HttpMethod": "GET",
@@ -1277,7 +1475,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
     "Method": "GetAssignmentById",
     "RelativePath": "api/employee-schedule-assignment/get-by-nrodoc/{nroDoc}",
     "HttpMethod": "GET",
@@ -1303,7 +1501,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
     "Method": "GetEmployeeSchedules",
     "RelativePath": "api/employee-schedule-assignment/get-horaio-by-doc/{nroDoc}",
     "HttpMethod": "GET",
@@ -1319,7 +1517,38 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
+    "Method": "GetEmployeeIdsByDateRange",
+    "RelativePath": "api/employee-schedule-assignment/idsPorRangoDeFechas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
     "Method": "InsertAssignment",
     "RelativePath": "api/employee-schedule-assignment/insert",
     "HttpMethod": "POST",
@@ -1327,8 +1556,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "models",
-        "Type": "System.Collections.Generic.List\u00601[[Entities.Manager.EmployeeShiftAssignment, Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Name": "requestModels",
+        "Type": "System.Collections.Generic.List\u00601[[Dtos.EmployeeShiftAssignmentDto.CreateEmployeeShiftAssignmentDTO, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
@@ -1345,7 +1574,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
     "Method": "Search",
     "RelativePath": "api/employee-schedule-assignment/search",
     "HttpMethod": "GET",
@@ -1376,6 +1605,16 @@
         "Name": "endDate",
         "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
+      },
+      {
+        "Name": "locationId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "areaId",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -1391,7 +1630,7 @@
     ]
   },
   {
-    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController",
+    "ContainingType": "FibAttendanceApi.Controllers.EmployeeShiftAssignmentController.EmployeeShiftAssignmentController",
     "Method": "UpdateAssignment",
     "RelativePath": "api/employee-schedule-assignment/update",
     "HttpMethod": "PUT",
@@ -1703,6 +1942,54 @@
     ]
   },
   {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.ExtraHoursReportController",
+    "Method": "GetExtraHoursReportData",
+    "RelativePath": "api/ExtraHoursReport/data",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filters",
+        "Type": "Dtos.Reportes.HorasExtras.ReportFiltersHE",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.ExtraHoursReportController",
+    "Method": "ExportExtraHoursReport",
+    "RelativePath": "api/ExtraHoursReport/export",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filters",
+        "Type": "Dtos.Reportes.HorasExtras.ReportFiltersHE",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Reportes.ExtraHoursReportController",
+    "Method": "GetReportSummary",
+    "RelativePath": "api/ExtraHoursReport/summary",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filters",
+        "Type": "Dtos.Reportes.HorasExtras.ReportFiltersHE",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "FibAttendanceApi.Controllers.IclokTransactionController.IclockTransactionController",
     "Method": "GetAsistencias",
     "RelativePath": "api/IclockTransaction",
@@ -1893,6 +2180,959 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "FibAttendanceApi.Controllers.OhldController.OhldsController",
+    "Method": "GetOhlds",
+    "RelativePath": "api/Ohlds",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Entities.OHLD.Ohld, Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.OhldController.OhldsController",
+    "Method": "PostOhld",
+    "RelativePath": "api/Ohlds",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ohld",
+        "Type": "Entities.OHLD.Ohld",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Entities.OHLD.Ohld",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.OhldController.OhldsController",
+    "Method": "GetOhld",
+    "RelativePath": "api/Ohlds/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Entities.OHLD.Ohld",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.OhldController.OhldsController",
+    "Method": "PutOhld",
+    "RelativePath": "api/Ohlds/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "ohld",
+        "Type": "Entities.OHLD.Ohld",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.OhldController.OhldsController",
+    "Method": "DeleteOhld",
+    "RelativePath": "api/Ohlds/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.OhldController.OhldsController",
+    "Method": "PostBulkOhlds",
+    "RelativePath": "api/Ohlds/bulk",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ohlds",
+        "Type": "System.Collections.Generic.List\u00601[[Entities.OHLD.Ohld, Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.OhldController.OhldsController",
+    "Method": "SynchronizeOhldData",
+    "RelativePath": "api/Ohlds/synchronize",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "useFullReplacement",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.OHLD.SynchronizationResultDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.PermissionController",
+    "Method": "GetAllPermissions",
+    "RelativePath": "api/Permission",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.Manager.PermissionDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.PermissionController",
+    "Method": "CreatePermission",
+    "RelativePath": "api/Permission",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "permissionCreateDto",
+        "Type": "Dtos.Manager.PermissionCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Manager.PermissionDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 201
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 409
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.PermissionController",
+    "Method": "GetPermissionById",
+    "RelativePath": "api/Permission/{permissionId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "permissionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Manager.PermissionDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.PermissionController",
+    "Method": "UpdatePermission",
+    "RelativePath": "api/Permission/{permissionId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "permissionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionUpdateDto",
+        "Type": "Dtos.Manager.PermissionUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.PermissionController",
+    "Method": "DeletePermission",
+    "RelativePath": "api/Permission/{permissionId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "permissionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "GetAllPersonal",
+    "RelativePath": "api/Personal",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.Personal.PersonalDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "CreatePersonal",
+    "RelativePath": "api/Personal",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createPersonalDto",
+        "Type": "Dtos.Personal.CreatePersonalDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Personal.PersonalDto",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 201
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 409
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "GetPersonal",
+    "RelativePath": "api/Personal/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Personal.PersonalDto",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetPersonal"
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "UpdatePersonal",
+    "RelativePath": "api/Personal/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatePersonalDto",
+        "Type": "Dtos.Personal.UpdatePersonalDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Personal.PersonalDto",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "DeletePersonal",
+    "RelativePath": "api/Personal/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 204
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "GetPersonalByArea",
+    "RelativePath": "api/Personal/area/{areaId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "areaId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.Personal.PersonalDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "GetPersonalByBranch",
+    "RelativePath": "api/Personal/branch/{branchId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.Personal.PersonalDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "GetPersonalPaginated",
+    "RelativePath": "api/Personal/paginated",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "branchId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "areaId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "costCenterId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "isActive",
+        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Personal.PaginatedResponse\u00601[[Dtos.Personal.PersonalDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "GetPersonalPaginatedAdvanced",
+    "RelativePath": "api/Personal/paginated/advanced",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "companyId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "createdById",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "branchId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "areaId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "costCenterId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "isActive",
+        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "approvalStatus",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortDirection",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Personal.PaginatedResponse\u00601[[Dtos.Personal.PersonalDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonalController",
+    "Method": "CreateMassivePersonal",
+    "RelativePath": "api/Personal/personal-transfers/massive",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "massiveCreateDto",
+        "Type": "System.Collections.Generic.List\u00601[[Dtos.Personal.CreatePersonalDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Dtos.Personal.PersonalDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 409
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonnelWhitelistController",
+    "Method": "GetPersonnelWhitelists",
+    "RelativePath": "api/PersonnelWhitelist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "FilterText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "IsAscending",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Personal.PagedResultDto\u00601[[Dtos.Personal.PersonnelWhitelistDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonnelWhitelistController",
+    "Method": "PostPersonnelWhitelist",
+    "RelativePath": "api/PersonnelWhitelist",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Dtos.Personal.PersonnelWhitelistCreateEditDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Personal.PersonnelWhitelistDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonnelWhitelistController",
+    "Method": "GetPersonnelWhitelist",
+    "RelativePath": "api/PersonnelWhitelist/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.Personal.PersonnelWhitelistDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonnelWhitelistController",
+    "Method": "PutPersonnelWhitelist",
+    "RelativePath": "api/PersonnelWhitelist/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "Dtos.Personal.PersonnelWhitelistCreateEditDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonnelWhitelistController",
+    "Method": "DeletePersonnelWhitelist",
+    "RelativePath": "api/PersonnelWhitelist/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Personal.PersonnelWhitelistController",
+    "Method": "PostBulkPersonnelWhitelist",
+    "RelativePath": "api/PersonnelWhitelist/bulk",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dtos",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.Personal.PersonnelWhitelistCreateEditDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "FibAttendanceApi.Controllers.ShiftController.ShiftController",
     "Method": "ActualizarShift",
     "RelativePath": "api/Shift/actualizarShift/{id}",
@@ -1928,37 +3168,6 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.ShiftController",
-    "Method": "getAttShift",
-    "RelativePath": "api/Shift/lstShifts",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Entities.Shifts.AttAttshift, Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
   },
   {
     "ContainingType": "FibAttendanceApi.Controllers.ShiftController.ShiftController",
@@ -2012,6 +3221,37 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.ShiftController",
+    "Method": "GetShifts",
+    "RelativePath": "api/Shift/shifts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.ShiftDto.ShiftListDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "FibAttendanceApi.Controllers.ShiftController.ShiftController",
@@ -2317,6 +3557,256 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
+    "Method": "GetAll",
+    "RelativePath": "api/TimeIntervals",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "companyId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.TimeIntervalDto.TimeIntervalDetailDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
+    "Method": "Create",
+    "RelativePath": "api/TimeIntervals",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "Dtos.TimeIntervalDto.AttTimeIntervalCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.TimeIntervalDto.AttTimeIntervalDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
+    "Method": "GetById",
+    "RelativePath": "api/TimeIntervals/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Dtos.TimeIntervalDto.AttTimeIntervalDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
+    "Method": "Update",
+    "RelativePath": "api/TimeIntervals/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "Dtos.TimeIntervalDto.AttTimeIntervalUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.ShiftController.AttTimeIntervalController",
+    "Method": "Delete",
+    "RelativePath": "api/TimeIntervals/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.PermissionController",
+    "Method": "GetUserPermissions",
+    "RelativePath": "api/users/{userId}/permissions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Dtos.Manager.UserPermissionDto, Dtos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.PermissionController",
+    "Method": "AssignPermissionToUser",
+    "RelativePath": "api/users/{userId}/permissions/{permissionId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 409
+      }
+    ]
+  },
+  {
+    "ContainingType": "FibAttendanceApi.Controllers.Manager.PermissionController",
+    "Method": "RevokePermissionFromUser",
+    "RelativePath": "api/users/{userId}/permissions/{permissionId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
   },
   {
     "ContainingType": "FibAttendanceApi.Controllers.WeatherForecastController",

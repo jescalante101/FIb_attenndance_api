@@ -1,8 +1,11 @@
-﻿
 using Entities.Manager;
 using FibAttendanceApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic; // Added for IEnumerable
+using System.Linq; // Added for Any()
+using System.Threading.Tasks; // Added for Task
+using Microsoft.AspNetCore.Authorization; // Added for Authorize
 
 namespace FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController
 {
@@ -11,6 +14,7 @@ namespace FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // Added Authorize at class level
     public class SiteAreaCostCenterController : ControllerBase
     {
         private readonly ApplicationDbcontext _context;
@@ -73,7 +77,7 @@ namespace FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController
                 return Conflict(new { message = "Ya existe una relación Sede-Área con esos identificadores." });
 
             siteArea.Active ??= "Y";
-            siteArea.CreationDate ??= DateTime.Now;
+            siteArea.CreatedAt ??= DateTime.Now;
 
             _context.SiteAreaCostCenters.Add(siteArea);
             await _context.SaveChangesAsync();
@@ -111,8 +115,8 @@ namespace FibAttendanceApi.Controllers.Manager.SiteAreaCostCenterController
             existing.CostCenterName = updatedEntity.CostCenterName;
             existing.AreaId = updatedEntity.AreaId;
             existing.AreaName = updatedEntity.AreaName;
-            existing.CreatedBy = updatedEntity.CreatedBy;
-            existing.CreationDate = updatedEntity.CreationDate;
+            existing.UpdatedBy = updatedEntity.UpdatedBy;
+            existing.UpdatedAt = DateTime.Now;
             existing.Active = updatedEntity.Active;
 
             _context.Entry(existing).State = EntityState.Modified;

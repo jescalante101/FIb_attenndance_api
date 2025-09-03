@@ -2,16 +2,14 @@
 using Dtos.TimeIntervalDto;
 using Entities.Shifts;
 using FibAttendanceApi.Data;
-using FibAttendanceApi.Util;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace FibAttendanceApi.Controllers.ShiftController
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class AttTimeIntervalController
+    [Route("api/TimeIntervals")] // Ruta más limpia y estándar (RESTful)
+    public class AttTimeIntervalController : ControllerBase // Hereda de ControllerBase
     {
         private readonly ApplicationDbcontext _context;
         private readonly IMapper _mapper;
@@ -22,313 +20,226 @@ namespace FibAttendanceApi.Controllers.ShiftController
             _mapper = mapper;
         }
 
+        // --- ENDPOINTS NUEVOS Y LIMPIOS ---
 
-        [HttpGet("lstHorarios")]
-        public async Task<ActionResult<IEnumerable<AttTimeinterval>>> getListShiftDetails([FromQuery] int page = 1, [FromQuery] int pageSize = 15)
+        /// <summary>
+        /// Obtiene una lista paginada de horarios POR COMPAÑÍA, incluyendo los detalles de sus descansos.
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TimeIntervalDetailDto>>> GetAll(
+            [FromQuery] string companyId,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 15)
         {
-            var totalTransactions = await _context.AttTimeintervals.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalTransactions / pageSize);
-
-            if (page < 1 || page > totalPages)
+            if (string.IsNullOrEmpty(companyId))
             {
-                return new BadRequestObjectResult("Número de página inválido.");
+                return BadRequest("El parámetro 'companyId' es obligatorio.");
             }
 
-            var lstShiftDetails = await _context.AttTimeintervals
-                .Skip((page - 1) * pageSize)
-                 .OrderByDescending(h => h.Id)
-            .Take(pageSize)
-                .ToListAsync();
+            var query = _context.AttTimeintervals
+                .Where(h => h.CompaniaId == companyId);
 
-            return new OkObjectResult(new
-            {
-                data = lstShiftDetails,
-                totalRecords = totalTransactions
-            });
+            var totalRecords = await query.CountAsync();
+
+            var timeIntervals = await _context.AttTimeintervals
+               .Where(h => h.CompaniaId == companyId)
+               .Include(t => t.AttTimeintervalBreakTimes)
+                   .ThenInclude(tb => tb.Breaktime)
+               .OrderByDescending(h => h.Id)
+               .Skip((page - 1) * pageSize)
+               .Take(pageSize)
+               .ToListAsync();
+
+            var dtos = _mapper.Map<List<TimeIntervalDetailDto>>(timeIntervals); // <-- Cambio aquí
+
+            return Ok(new { data = dtos, totalRecords = totalRecords });
         }
 
 
-        [HttpGet("lstHoraiosMap")]
-        public async Task<ActionResult<IEnumerable<HorarioInfoDto>>> getHorarioslst([FromQuery] int page = 1, [FromQuery] int pageSize = 15)
+        /// <summary>
+        /// Obtiene un horario específico por su ID, incluyendo los detalles de sus descansos.
+        /// </summary>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AttTimeIntervalDto>> GetById(int id)
         {
-            var totalTransactions = await _context.AttTimeintervals.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalTransactions / pageSize);
+            var timeInterval = await _context.AttTimeintervals
+             .Include(t => t.AttTimeintervalBreakTimes)
+                 .ThenInclude(tb => tb.Breaktime)
+             .FirstOrDefaultAsync(t => t.Id == id);
+            // --- FIN DEL CAMBIO ---
 
-            if (page < 1 || page > totalPages)
+            if (timeInterval == null)
             {
-                return new BadRequestObjectResult("Número de página inválido.");
+                return NotFound();
             }
 
-            var lstShiftDetails = await _context.AttTimeintervals
-                .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .Include(h => h.AttTimeintervalBreakTimes)
-            .ThenInclude(br => br.Breaktime)
-                .ToListAsync();
-            var newDate = _mapper.Map<List<HorarioInfoDto>>(lstShiftDetails);
-
-            return new OkObjectResult(new
-            {
-                data = newDate,
-                totalRecords = totalTransactions
-            });
+            var dto = _mapper.Map<AttTimeIntervalDto>(timeInterval);
+            return Ok(dto);
         }
 
 
-        [HttpGet("horarioPorId/{id}")]
-        public async Task<ActionResult<HorarioInfoDto>> findById(int id)
+        /// <summary>
+        /// Crea un nuevo horario y asocia sus descansos.
+        /// </summary>
+        [HttpPost]
+        public async Task<ActionResult<AttTimeIntervalDto>> Create([FromBody] AttTimeIntervalCreateDto createDto)
         {
-
-            var horario = await _context.AttTimeintervals
-                             .Include(h => h.AttTimeintervalBreakTimes) // Cargar la colección
-                                 .ThenInclude(bt => bt.Breaktime)     // Y luego la relación dentro de la colección
-                             .Where(t => t.Id == id)
-                             .FirstOrDefaultAsync();
-
-            if (horario == null)
+            if (!ModelState.IsValid)
             {
-                return new NotFoundResult();
+                return BadRequest(ModelState);
             }
 
-            var newData = _mapper.Map<HorarioInfoDto>(horario);
-
-            var breaktime = await _context.AttTimeintervalBreakTimes.Where(t => t.TimeintervalId == id).FirstOrDefaultAsync();
+            var newTimeInterval = _mapper.Map<AttTimeinterval>(createDto);
 
 
-            return new OkObjectResult(new
+            // --- LÓGICA PARA CALCULAR Y ASIGNAR MÁRGENES ---
+            // Hora de salida programada para el cálculo
+            var scheduledOutTime = newTimeInterval.InTime.AddMinutes(newTimeInterval.Duration);
+
+            // Asumimos que tienes una función que convierte "HH:mm" a un objeto de tiempo
+            var punchInStart = TimeSpan.Parse(createDto.PunchInStartTime);
+            var punchInEnd = TimeSpan.Parse(createDto.PunchInEndTime);
+            var punchOutStart = TimeSpan.Parse(createDto.PunchOutStartTime);
+            var punchOutEnd = TimeSpan.Parse(createDto.PunchOutEndTime);
+
+            // Calculamos la diferencia en minutos
+            newTimeInterval.InAheadMargin = (int)(newTimeInterval.InTime.TimeOfDay - punchInStart).TotalMinutes;
+            newTimeInterval.InAboveMargin = (int)(punchInEnd - newTimeInterval.InTime.TimeOfDay).TotalMinutes;
+            newTimeInterval.OutAheadMargin = (int)(scheduledOutTime.TimeOfDay - punchOutStart).TotalMinutes;
+            newTimeInterval.OutAboveMargin = (int)(punchOutEnd - scheduledOutTime.TimeOfDay).TotalMinutes;
+
+            // Asigna valores de auditoría
+            newTimeInterval.CreatedAt = DateTime.Now;
+            newTimeInterval.CreatedBy = User.Identity?.Name ?? "Sistema";
+            newTimeInterval.DayChange = DateTime.Today;
+
+            // --- NUEVA LÓGICA PARA ASOCIAR DESCANSOS ---
+            if (createDto.BreakTimeIds != null && createDto.BreakTimeIds.Any())
             {
-                horario = newData,
-                BreaktimeId = breaktime?.BreaktimeId ?? 0
-
-            });
-        }
-
-
-
-        [HttpPost("nuevoHorario")]
-        public async Task<ActionResult<AttTimeinterval>> GuardarHorario([FromBody] HorarioInfoDto attTimeinterval)
-        {
-            AttTimeinterval interval = new AttTimeinterval();
-
-            if (attTimeinterval.Tipo == 0)
-            {
-
-
-
-                interval.Alias = attTimeinterval.Nombre;
-                interval.UseMode = short.Parse(attTimeinterval.Tipo.ToString());
-                interval.InTime = Utils.ParsearFechaHora(attTimeinterval.HoraEntrada);
-
-                var tolerancias = Utils.ObtenerTolerancias(
-                    attTimeinterval.HoraEntrada,
-                    attTimeinterval.HoraSalida,
-                    attTimeinterval.HoraEntradaDesde,
-                    attTimeinterval.HoraEntradaHasta,
-                    attTimeinterval.HoraSalidaDesde,
-                    attTimeinterval.HoraSalidaHasta
-                );
-
-                interval.InAheadMargin = Convert.ToInt32(tolerancias.ToleranciaEntradaDesdeMinutos);
-                interval.InAboveMargin = Convert.ToInt32(tolerancias.ToleranciaEntradaHastaMinutos);
-                interval.OutAheadMargin = Convert.ToInt32(tolerancias.ToleranciaSalidaDesdeMinutos);
-                interval.OutAboveMargin = Convert.ToInt32(tolerancias.ToleranciaSalidaHastaMinutos);
-                interval.Duration = Convert.ToInt32(tolerancias.TiempoTrabajoMinutos);
-                interval.InRequired = Convert.ToInt32(attTimeinterval.MarcarEntrada) == 0 ? (short)0 : (short)1;
-                interval.OutRequired = Convert.ToInt32(attTimeinterval.MarcarSalida) == 0 ? (short)0 : (short)1;
-                interval.AllowLate = Convert.ToInt32(attTimeinterval.PSalidaT);
-                interval.AllowLeaveEarly = Convert.ToInt32(attTimeinterval.PLlegadaT);
-                interval.AvailableIntervalType = (short)attTimeinterval.TipoIntervalo;
-                interval.WorkDay = Convert.ToDouble(attTimeinterval.DiasLaboral);
-                interval.MultiplePunch = (short)attTimeinterval.BasadoM;
-                interval.AvailableInterval = attTimeinterval.PeriodoMarcacion;
-                interval.WorkType = 0;
-
-                interval.DayChange = DateTime.Today;
-
-
-                interval.OvertimeLv = (short)attTimeinterval.Hnivel;
-                interval.OvertimeLv1 = (short)attTimeinterval.HNivel1;
-                interval.OvertimeLv2 = (short)attTimeinterval.HNivel2;
-                interval.OvertimeLv3 = (short)attTimeinterval.HNivel3;
-                interval.WorkTimeDuration = Convert.ToInt32(tolerancias.TiempoTrabajoMinutos);
-                interval.MinEarlyIn = Convert.ToInt32(attTimeinterval.MinEntradaTemprana);
-                interval.MinLateOut = Convert.ToInt32(attTimeinterval.MinSalidaTarde);
-                interval.LateOut = (short)Convert.ToInt32(attTimeinterval.EntradaTarde);
-                interval.EarlyIn = (short)Convert.ToInt32(attTimeinterval.EntradaTemprana);
-                interval.TotalMarkings = attTimeinterval.TotalMarcaciones;
-                interval.AttTimeintervalBreakTimes = new List<AttTimeintervalBreakTime>();
-
-                // Fix: Ensure Descanso is treated as a collection of integers
-                var breakTimeIds = new List<int> { attTimeinterval.Descanso }; // Assuming Descanso is a single int, wrap it in a list
-                foreach (var breakTimeId in breakTimeIds)
+                foreach (var breakId in createDto.BreakTimeIds)
                 {
-                    var breakTimeEntity = await _context.AttBreaktimes.FindAsync(breakTimeId);
-                    if (breakTimeEntity != null)
+                    // Crea la entidad de unión
+                    var timeIntervalBreak = new AttTimeintervalBreakTime
                     {
-                        var attTimeintervalBreakTime = new AttTimeintervalBreakTime
-                        {
-                            BreaktimeId = breakTimeId,
-                            TimeintervalId = interval.Id
-                        };
-                        interval.AttTimeintervalBreakTimes.Add(attTimeintervalBreakTime);
-                    }
-                }
-                _context.AttTimeintervals.Add(interval);
-                await _context.SaveChangesAsync();
-
-                // Reemplaza la línea problemática en el método GuardarHorario:
-                // return new  CreatedAtActionResult(nameof(getHorarioslst), new { id = interval.Id });
-
-                // Por la siguiente línea, que incluye todos los argumentos requeridos:
-                return new CreatedAtActionResult(
-                    actionName: nameof(getHorarioslst),
-                    controllerName: null,
-                    routeValues: new { id = interval.Id },
-                    value: null
-                );
-                
-            }
-            else
-            {
-                interval.Alias = attTimeinterval.Nombre;
-                interval.UseMode = short.Parse(attTimeinterval.Tipo.ToString());
-                interval.InTime = Utils.ParsearFechaHora(attTimeinterval.HoraEntrada);
-                interval.WorkTimeDuration = Utils.ObtenerDiferenciaEnMinutos(attTimeinterval.HoraEntrada, attTimeinterval.HoraSalida);
-                interval.EarlyIn = (short)Convert.ToInt32(attTimeinterval.EntradaTemprana);
-                interval.MinEarlyIn = (short)Convert.ToInt32(attTimeinterval.MinEntradaTemprana);
-                interval.OvertimeLv = (short)attTimeinterval.Hnivel;
-                interval.OvertimeLv1 = (short)attTimeinterval.HNivel1;
-                interval.OvertimeLv2 = (short)attTimeinterval.HNivel2;
-                interval.OvertimeLv3 = (short)attTimeinterval.HNivel3;
-
-                interval.InRequired = Convert.ToInt32(attTimeinterval.MarcarEntrada) == 0 ? (short)0 : (short)1;
-                interval.OutRequired = Convert.ToInt32(attTimeinterval.MarcarSalida) == 0 ? (short)0 : (short)1;
-                interval.AvailableIntervalType = (short)attTimeinterval.TipoIntervalo;
-                interval.AvailableInterval = attTimeinterval.PeriodoMarcacion;
-                interval.MultiplePunch = (short)attTimeinterval.BasadoM;
-                interval.TotalMarkings = attTimeinterval.TotalMarcaciones;
-
-                interval.DayChange = DateTime.Today;
-
-                _context.AttTimeintervals.Add(interval);
-                await _context.SaveChangesAsync();
-
-                // Reemplaza la línea:
-                // return CreatedAtAction(nameof(getHorarioslst), new { id = interval.Id });
-
-                // Por la siguiente línea, que utiliza el constructor de CreatedAtActionResult directamente:
-                return new CreatedAtActionResult(
-                    actionName: nameof(getHorarioslst),
-                    controllerName: null,
-                    routeValues: new { id = interval.Id },
-                    value: null
-                );
-              
-
-            }
-        }
-
-        [HttpPut("actualizarHorario/")]
-        public async Task<ActionResult<AttTimeinterval>> ActualizarHorario([FromBody] HorarioInfoDto attTimeinterval)
-        {
-            var interval = await _context.AttTimeintervals
-                .Include(i => i.AttTimeintervalBreakTimes)
-                .FirstOrDefaultAsync(i => i.Id == attTimeinterval.IdHorio);
-
-            if (interval == null)
-                return new NotFoundObjectResult(new { mensaje = "Horario no encontrado." });
-
-            interval.Alias = attTimeinterval.Nombre;
-            interval.UseMode = short.Parse(attTimeinterval.Tipo.ToString());
-            interval.InTime = Utils.ParsearFechaHora(attTimeinterval.HoraEntrada);
-
-            var tolerancias = Utils.ObtenerTolerancias(
-                attTimeinterval.HoraEntrada,
-                attTimeinterval.HoraSalida,
-                attTimeinterval.HoraEntradaDesde,
-                attTimeinterval.HoraEntradaHasta,
-                attTimeinterval.HoraSalidaDesde,
-                attTimeinterval.HoraSalidaHasta
-            );
-
-            interval.InAheadMargin = Convert.ToInt32(tolerancias.ToleranciaEntradaDesdeMinutos);
-            interval.InAboveMargin = Convert.ToInt32(tolerancias.ToleranciaEntradaHastaMinutos);
-            interval.OutAheadMargin = Convert.ToInt32(tolerancias.ToleranciaSalidaDesdeMinutos);
-            interval.OutAboveMargin = Convert.ToInt32(tolerancias.ToleranciaSalidaHastaMinutos);
-            interval.Duration = Convert.ToInt32(tolerancias.TiempoTrabajoMinutos);
-            interval.InRequired = Convert.ToInt32(attTimeinterval.MarcarEntrada) == 0 ? (short)0 : (short)1;
-            interval.OutRequired = Convert.ToInt32(attTimeinterval.MarcarSalida) == 0 ? (short)0 : (short)1;
-            interval.AllowLate = Convert.ToInt32(attTimeinterval.PSalidaT);
-            interval.AllowLeaveEarly = Convert.ToInt32(attTimeinterval.PLlegadaT);
-            interval.AvailableIntervalType = (short)attTimeinterval.TipoIntervalo;
-            interval.WorkDay = Convert.ToDouble(attTimeinterval.DiasLaboral);
-            interval.MultiplePunch = (short)attTimeinterval.BasadoM;
-            interval.AvailableInterval = attTimeinterval.PeriodoMarcacion;
-            interval.WorkType = 0;
-            interval.DayChange = DateTime.Today;
-            interval.OvertimeLv = (short)attTimeinterval.Hnivel;
-            interval.OvertimeLv1 = (short)attTimeinterval.HNivel1;
-            interval.OvertimeLv2 = (short)attTimeinterval.HNivel2;
-            interval.OvertimeLv3 = (short)attTimeinterval.HNivel3;
-            interval.WorkTimeDuration = Convert.ToInt32(tolerancias.TiempoTrabajoMinutos);
-            interval.MinEarlyIn = Convert.ToInt32(attTimeinterval.MinEntradaTemprana);
-            interval.MinLateOut = Convert.ToInt32(attTimeinterval.MinSalidaTarde);
-            interval.LateOut = (short)Convert.ToInt32(attTimeinterval.EntradaTarde);
-            interval.EarlyIn = (short)Convert.ToInt32(attTimeinterval.EntradaTemprana);
-            interval.TotalMarkings = (short)Convert.ToInt32(attTimeinterval.TotalMarcaciones);
-
-            // Actualizar descansos
-            if (interval.AttTimeintervalBreakTimes != null)
-                _context.AttTimeintervalBreakTimes.RemoveRange(interval.AttTimeintervalBreakTimes);
-
-            interval.AttTimeintervalBreakTimes = new List<AttTimeintervalBreakTime>();
-            var breakTimeIds = new List<int> { attTimeinterval.Descanso };
-            foreach (var breakTimeId in breakTimeIds)
-            {
-                var breakTimeEntity = await _context.AttBreaktimes.FindAsync(breakTimeId);
-                if (breakTimeEntity != null)
-                {
-                    var attTimeintervalBreakTime = new AttTimeintervalBreakTime
-                    {
-                        BreaktimeId = breakTimeId,
-                        TimeintervalId = interval.Id
+                        BreaktimeId = breakId
+                        // EF Core asignará el TimeintervalId automáticamente al añadirlo a la colección
                     };
-                    interval.AttTimeintervalBreakTimes.Add(attTimeintervalBreakTime);
+                    newTimeInterval.AttTimeintervalBreakTimes.Add(timeIntervalBreak);
                 }
             }
+            // --- FIN DE LA NUEVA LÓGICA ---
 
-            await _context.SaveChangesAsync();
-            return new OkObjectResult(new
+            _context.AttTimeintervals.Add(newTimeInterval);
+
+            try
             {
-                message = "Actualizado co Exito",
-                id = attTimeinterval.IdHorio
-            });
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                return Conflict($"Error al guardar: {ex.InnerException?.Message}");
+            }
+
+            var resultDto = _mapper.Map<AttTimeIntervalDto>(newTimeInterval);
+            return CreatedAtAction(nameof(GetById), new { id = newTimeInterval.Id }, resultDto);
         }
 
-
-        [HttpDelete("eliminarHorario/{id}")]
-        public async Task<IActionResult> EliminarHorario(int id)
+        /// <summary>
+        /// Actualiza un horario existente, sus descansos y márgenes de marcación.
+        /// </summary>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] AttTimeIntervalUpdateDto updateDto)
         {
-            var horario = await _context.AttTimeintervals
-                .Include(h => h.AttTimeintervalBreakTimes)
-                .FirstOrDefaultAsync(h => h.Id == id);
-
-            if (horario == null)
+            if (id != updateDto.Id)
             {
-                return new NotFoundObjectResult(new { mensaje = "Horario no encontrado." });
+                return BadRequest("El ID de la ruta no coincide.");
             }
 
-            // Eliminar relaciones en AttTimeintervalBreakTime
-            if (horario.AttTimeintervalBreakTimes != null && horario.AttTimeintervalBreakTimes.Any())
+            // Incluimos las relaciones existentes para poder modificarlas
+            var existingTimeInterval = await _context.AttTimeintervals
+                .Include(t => t.AttTimeintervalBreakTimes)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (existingTimeInterval == null)
             {
-                _context.AttTimeintervalBreakTimes.RemoveRange(horario.AttTimeintervalBreakTimes);
+                return NotFound();
             }
 
-            _context.AttTimeintervals.Remove(horario);
-            await _context.SaveChangesAsync();
+            // AutoMapper actualiza las propiedades principales (Alias, Duration, etc.)
+            _mapper.Map(updateDto, existingTimeInterval);
 
-            return new OkObjectResult(new { mensaje = "Horario eliminado correctamente." });
+            // --- LÓGICA PARA CALCULAR Y ASIGNAR MÁRGENES DE MARCACIÓN ---
+            // (Esta es la misma lógica que en el método Create)
+            if (!string.IsNullOrEmpty(updateDto.PunchInStartTime) && !string.IsNullOrEmpty(updateDto.PunchInEndTime))
+            {
+                var officialInTime = existingTimeInterval.InTime.TimeOfDay;
+                var punchInStart = TimeSpan.Parse(updateDto.PunchInStartTime);
+                var punchInEnd = TimeSpan.Parse(updateDto.PunchInEndTime);
+
+                existingTimeInterval.InAheadMargin = (int)(officialInTime - punchInStart).TotalMinutes;
+                existingTimeInterval.InAboveMargin = (int)(punchInEnd - officialInTime).TotalMinutes;
+            }
+
+            if (!string.IsNullOrEmpty(updateDto.PunchOutStartTime) && !string.IsNullOrEmpty(updateDto.PunchOutEndTime))
+            {
+                var scheduledOutTime = existingTimeInterval.InTime.AddMinutes(existingTimeInterval.Duration).TimeOfDay;
+                var punchOutStart = TimeSpan.Parse(updateDto.PunchOutStartTime);
+                var punchOutEnd = TimeSpan.Parse(updateDto.PunchOutEndTime);
+
+                existingTimeInterval.OutAheadMargin = (int)(scheduledOutTime - punchOutStart).TotalMinutes;
+                existingTimeInterval.OutAboveMargin = (int)(punchOutEnd - scheduledOutTime).TotalMinutes;
+            }
+            // --- FIN DE LA LÓGICA DE MÁRGENES ---
+
+            // --- LÓGICA PARA ACTUALIZAR DESCANSOS (Eliminar y Re-crear) ---
+            existingTimeInterval.AttTimeintervalBreakTimes.Clear();
+            if (updateDto.BreakTimeIds != null && updateDto.BreakTimeIds.Any())
+            {
+                foreach (var breakId in updateDto.BreakTimeIds)
+                {
+                    existingTimeInterval.AttTimeintervalBreakTimes.Add(new AttTimeintervalBreakTime
+                    {
+                        BreaktimeId = breakId
+                    });
+                }
+            }
+            // --- FIN DE LA LÓGICA DE DESCANSOS ---
+
+            existingTimeInterval.UpdatedAt = DateTime.Now;
+            existingTimeInterval.UpdatedBy = User.Identity?.Name ?? "Sistema";
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                return Conflict($"Error al actualizar: {ex.InnerException?.Message}");
+            }
+
+            return NoContent();
         }
 
+
+        /// <summary>
+        /// Elimina un horario por su ID.
+        /// </summary>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var timeInterval = await _context.AttTimeintervals.FindAsync(id);
+            if (timeInterval == null)
+            {
+                return NotFound();
+            }
+
+            // Aquí necesitarás manejar la lógica de eliminación de relaciones si es necesario
+            // por ejemplo, los descansos asociados, antes de eliminar el horario.
+
+            _context.AttTimeintervals.Remove(timeInterval);
+            await _context.SaveChangesAsync();
+
+            return NoContent(); // Respuesta estándar 204 para una eliminación exitosa
+        }
     }
 }

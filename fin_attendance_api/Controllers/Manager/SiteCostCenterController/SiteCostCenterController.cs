@@ -1,8 +1,11 @@
-﻿
 using Entities.Manager;
 using FibAttendanceApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic; // Added for IEnumerable
+using System.Linq; // Added for Any()
+using System.Threading.Tasks; // Added for Task
+using Microsoft.AspNetCore.Authorization; // Added for Authorize
 
 namespace FibAttendanceApi.Controllers.Manager.SiteCostCenterController
 {
@@ -11,6 +14,7 @@ namespace FibAttendanceApi.Controllers.Manager.SiteCostCenterController
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // Added Authorize at class level
     public class SiteCostCenterController : ControllerBase
     {
         private readonly ApplicationDbcontext _context;
@@ -75,7 +79,7 @@ namespace FibAttendanceApi.Controllers.Manager.SiteCostCenterController
 
             // Valores por defecto
             siteCostCenter.Active ??= "Y";
-            siteCostCenter.CreationDate ??= DateTime.Now;
+            siteCostCenter.CreatedAt ??= DateTime.Now;
 
             _context.SiteCostCenters.Add(siteCostCenter);
             await _context.SaveChangesAsync();
@@ -109,8 +113,8 @@ namespace FibAttendanceApi.Controllers.Manager.SiteCostCenterController
             existing.Observation = updatedEntity.Observation;
             existing.SiteName = updatedEntity.SiteName;
             existing.CostCenterName = updatedEntity.CostCenterName;
-            existing.CreatedBy = updatedEntity.CreatedBy;
-            existing.CreationDate = updatedEntity.CreationDate;
+            existing.CreatedBy = updatedEntity.UpdatedBy;
+            existing.UpdatedAt = DateTime.Now;
             existing.Active = updatedEntity.Active;
 
             _context.Entry(existing).State = EntityState.Modified;

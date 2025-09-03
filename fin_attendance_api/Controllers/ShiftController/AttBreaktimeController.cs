@@ -3,6 +3,7 @@ using Dtos.ShiftDto;
 using Entities.Shifts;
 using FibAttendanceApi.Data;
 using FibAttendanceApi.Util;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ namespace FibAttendanceApi.Controllers.ShiftController
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AttBreaktimeController: ControllerBase
     {
         private readonly ApplicationDbcontext _context;
@@ -77,6 +79,8 @@ namespace FibAttendanceApi.Controllers.ShiftController
             breaktime.MinLateIn = (short)descansoInfo.MinLateIn;
             breaktime.MinEarlyIn = (short)descansoInfo.MinEarlyIn;
             breaktime.MultiplePunch = (short)descansoInfo.MultiplePunch;
+            breaktime.CreatedBy = descansoInfo.CreatedBy;
+
             _context.AttBreaktimes.Add(breaktime);
             await _context.SaveChangesAsync();
             return Ok(new { mensaje = "Horario eliminado correctamente." });
@@ -99,6 +103,7 @@ namespace FibAttendanceApi.Controllers.ShiftController
             descanso.MinLateIn = (short)descansoInfo.MinLateIn;
             descanso.MinEarlyIn = (short)descansoInfo.MinEarlyIn;
             descanso.MultiplePunch = (short)descansoInfo.MultiplePunch;
+            descanso.UpdatedBy = descansoInfo.UpdatedBy;
             await _context.SaveChangesAsync();
             return Ok(new { mensaje = "Actualizado con éxito." });
         }

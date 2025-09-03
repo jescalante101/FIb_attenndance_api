@@ -1,49 +1,50 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Dtos.Manager;
 using Entities.Manager;
 using FibAttendanceApi.Data;
+using FibAttendanceApi.Core.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace FibAttendanceApi.Controllers.Manager.AppUserController
+namespace FibAttendanceApi.Controllers.Manager
 {
-    /// <summary>
-    /// Controlador para gestionar usuarios (AppUser).
-    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // Added Authorize at class level
     public class AppUserController : ControllerBase
     {
         private readonly ApplicationDbcontext _context;
+        private readonly IPasswordService _passwordService;
+        private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
-        /// <summary>
-        /// Constructor con inyección de dependencias del DbContext.
-        /// </summary>
-        public AppUserController(ApplicationDbcontext context)
+        public AppUserController(ApplicationDbcontext context, IPasswordService passwordService, ITokenService tokenService, IMapper mapper)
         {
             _context = context;
+            _passwordService = passwordService;
+            _tokenService = tokenService;
+            _mapper = mapper;
         }
 
-        /// <summary>
-        /// Obtiene todos los usuarios.
-        /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetAll()
+        // [Authorize] // Removed as it's now at class level
+        public async Task<ActionResult<IEnumerable<AppUserDto>>> GetAll()
         {
             var list = await _context.AppUsers.ToListAsync();
             if (list == null || !list.Any())
                 return NotFound(new { message = "No se encontraron usuarios." });
 
-            return Ok(list);
+            var listDto = _mapper.Map<IEnumerable<AppUserDto>>(list);
+            return Ok(listDto);
         }
 
-        /// <summary>
-        /// Obtiene un usuario por su ID.
-        /// </summary>
         [HttpGet("{userId:int}")]
-        public async Task<ActionResult<AppUser>> GetById(int userId)
+        // [Authorize] // Removed as it's now at class level
+        public async Task<ActionResult<AppUserDto>> GetById(int userId)
         {
             if (userId <= 0)
                 return BadRequest(new { message = "El ID de usuario debe ser mayor que cero." });
@@ -53,51 +54,78 @@ namespace FibAttendanceApi.Controllers.Manager.AppUserController
             if (entity == null)
                 return NotFound(new { message = $"No se encontró el usuario con ID={userId}." });
 
-            return Ok(entity);
+            var entityDto = _mapper.Map<AppUserDto>(entity);
+            return Ok(entityDto);
         }
 
-        /// <summary>
-        /// Crea un nuevo usuario.
-        /// </summary>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(object))] // Ahora documenta el 201
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(object))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<AppUser>> Create([FromBody] AppUser appUser)
+        public async Task<ActionResult<AppUserDto>> Create([FromBody] AppUserCreateDto appUserDto)
         {
-            if (appUser == null)
+            if (appUserDto == null)
                 return BadRequest(new { message = "El cuerpo de la solicitud no puede estar vacío." });
 
-            if (string.IsNullOrWhiteSpace(appUser.UserName))
-                return BadRequest(new { message = "El nombre de usuario es obligatorio." });
-
-            var exists = await _context.AppUsers.AnyAsync(u => u.UserName == appUser.UserName);
+            var exists = await _context.AppUsers.AnyAsync(u => u.UserName == appUserDto.UserName || u.Email == appUserDto.Email);
             if (exists)
-                return Conflict(new { message = $"Ya existe un usuario con el nombre '{appUser.UserName}'." });
+                return Conflict(new { message = $"Ya existe un usuario con el nombre '{appUserDto.UserName}' o email '{appUserDto.Email}'." });
+
+            var appUser = new AppUser
+            {
+                UserName = appUserDto.UserName,
+                Email = appUserDto.Email,
+                PasswordHash = _passwordService.HashPassword(appUserDto.Password),
+                FirstName = appUserDto.FirstName,
+                LastName = appUserDto.LastName,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = appUserDto.CreatedBy
+            };
 
             _context.AppUsers.Add(appUser);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { userId = appUser.UserId }, new {message="Usuario creado con exito",data= appUser });
+            var appUserDtoResult = _mapper.Map<AppUserDto>(appUser);
+
+            return CreatedAtAction(nameof(GetById), new { userId = appUser.UserId }, new { message = "Usuario creado con exito", data = appUserDtoResult });
         }
 
-        /// <summary>
-        /// Actualiza un usuario existente.
-        /// </summary>
         [HttpPut("{userId:int}")]
-        public async Task<IActionResult> Update(int userId, [FromBody] AppUser updatedEntity)
+        // No need for [Authorize] here, as it's covered by class-level Authorize
+        public async Task<IActionResult> Update(int userId, [FromBody] AppUserUpdateDto updatedEntity)
         {
             if (updatedEntity == null)
                 return BadRequest(new { message = "El cuerpo de la solicitud no puede estar vacío." });
-
-            if (userId != updatedEntity.UserId)
-                return BadRequest(new { message = "El ID de la ruta y el del cuerpo no coinciden." });
 
             var existing = await _context.AppUsers.FindAsync(userId);
             if (existing == null)
                 return NotFound(new { message = $"No se encontró el usuario con ID={userId}." });
 
-            existing.UserName = updatedEntity.UserName;
+            if (!string.IsNullOrWhiteSpace(updatedEntity.UserName))
+                existing.UserName = updatedEntity.UserName;
+
+            if (!string.IsNullOrWhiteSpace(updatedEntity.Email))
+                existing.Email = updatedEntity.Email;
+
+            if (!string.IsNullOrWhiteSpace(updatedEntity.Password))
+                existing.PasswordHash = _passwordService.HashPassword(updatedEntity.Password);
+
+            if (!string.IsNullOrWhiteSpace(updatedEntity.FirstName))
+                existing.FirstName = updatedEntity.FirstName;
+
+            if (!string.IsNullOrWhiteSpace(updatedEntity.LastName))
+                existing.LastName = updatedEntity.LastName;
+
+            if (updatedEntity.IsActive.HasValue)
+                existing.IsActive = updatedEntity.IsActive.Value;
+
+            if (!string.IsNullOrWhiteSpace(updatedEntity.UpdatedBy))
+                existing.UpdatedBy = updatedEntity.UpdatedBy;
+
+
+            //existing.UpdatedAt = DateTime.UtcNow;
 
             _context.Entry(existing).State = EntityState.Modified;
 
@@ -110,13 +138,12 @@ namespace FibAttendanceApi.Controllers.Manager.AppUserController
                 return StatusCode(500, new { message = "Error al actualizar el usuario.", details = ex.Message });
             }
 
-            return Ok(existing);
+            var updatedDto = _mapper.Map<AppUserDto>(existing); 
+            return Ok(updatedDto);
         }
 
-        /// <summary>
-        /// Elimina un usuario por su ID.
-        /// </summary>
         [HttpDelete("{userId:int}")]
+        // [Authorize] // Removed as it's now at class level
         public async Task<IActionResult> Delete(int userId)
         {
             if (userId <= 0)
@@ -132,19 +159,38 @@ namespace FibAttendanceApi.Controllers.Manager.AppUserController
             return Ok(new { message = "Usuario eliminado correctamente." });
         }
 
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            if (loginDto == null)
+                return BadRequest(new { message = "El cuerpo de la solicitud no puede estar vacío." });
 
-        /// <summary>
-        /// Obtiene las sedes y áreas asignadas a un usuario (consulta optimizada).
-        /// </summary>
+            var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.UserName == loginDto.UserName);
+
+            if (user == null || !_passwordService.VerifyPassword(loginDto.Password, user.PasswordHash))
+                return Unauthorized(new { message = "Credenciales inválidas." });
+
+            var token = _tokenService.CreateToken(user);
+
+            // Fetch user permissions to return in the response
+            var userPermissions = await _context.UserPermissions
+                .Where(up => up.UserId == user.UserId)
+                .Include(up => up.Permission)
+                .Select(up => up.Permission.PermissionKey)
+                .ToListAsync();
+
+            return Ok(new { token, username = user.UserName, permissions = userPermissions }); // Added username
+        }
+
         [HttpGet("{userId}/sedes-areas")]
+        [Authorize] // Keep this if it needs specific authorization rules beyond just being logged in
         public async Task<IActionResult> GetSedesYAreasDeUsuario(int userId)
         {
-            // Validar existencia del usuario
             var usuario = await _context.AppUsers.FindAsync(userId);
             if (usuario == null)
                 return NotFound(new { message = "No se encontró el usuario especificado." });
 
-            // Un solo JOIN: AppUserSite + SiteArea (agrupando por sede)
             var query = from us in _context.AppUserSites
                         join sa in _context.SiteAreaCostCenters on us.SiteId equals sa.SiteId
                         where us.UserId == userId
@@ -183,9 +229,5 @@ namespace FibAttendanceApi.Controllers.Manager.AppUserController
 
             return Ok(resultado);
         }
-
-
-
-
     }
 }

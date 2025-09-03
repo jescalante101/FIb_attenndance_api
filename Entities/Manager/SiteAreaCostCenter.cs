@@ -32,12 +32,19 @@ namespace Entities.Manager
         [StringLength(100)]
         public string? AreaName { get; set; }
 
-        [Column("createdBy")]
+        [Column("created_by")]
         [StringLength(50)]
         public string? CreatedBy { get; set; }
 
-        [Column("creationDate")]
-        public DateTime? CreationDate { get; set; }
+        [Column("created_at")]
+        public DateTime? CreatedAt { get; set; }
+
+        [Column("updated_at")]
+        public DateTime? UpdatedAt { get; set; }
+
+        [Column("updated_by")]
+        [StringLength(50)]
+        public string? UpdatedBy { get; set; }
 
         [Column("active")]
         [StringLength(1)]

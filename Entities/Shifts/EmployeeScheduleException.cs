@@ -23,7 +23,7 @@ namespace Entities.Shifts
         public string EmployeeId { get; set; } = string.Empty;
 
         [Column("assignment_id")]
-        public int? AssignmentId { get; set; }
+        public int AssignmentId { get; set; }
 
         [Column("exception_date")]
         public DateTime? ExceptionDate { get; set; }

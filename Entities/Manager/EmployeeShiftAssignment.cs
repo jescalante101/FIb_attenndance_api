@@ -12,15 +12,16 @@ namespace Entities.Manager
     public class EmployeeShiftAssignment
     {
         // Clave primaria
-        [Key] // Marca esta propiedad como la clave primaria de la entidad
-        [Required] // Indica que esta columna no puede ser NULL (NO en IS_NULLABLE)
-        [Column("assignment_id", TypeName = "int")] // Mapea a la columna 'assignment_id' y especifica el tipo de DB
+        [Key]
+        [Required]
+        [Column("assignment_id", TypeName = "int")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AssignmentId { get; set; }
 
         // employee_id (VARCHAR(20), NULLABLE)
-        [Column("employee_id", TypeName = "varchar(20)")] // Mapea a 'employee_id' y especifica el tipo y longitud
-        [StringLength(20)] // Establece la longitud máxima para el string
-        public string? EmployeeId { get; set; } // '?' indica que es anulable (nullable)
+        [Column("employee_id", TypeName = "varchar(20)")]
+        [StringLength(20)]
+        public string? EmployeeId { get; set; }
 
         // shift_id (INT, NOT NULL)
         [Required]
@@ -29,12 +30,12 @@ namespace Entities.Manager
 
         // start_date (DATE, NOT NULL)
         [Required]
-        [Column("start_date", TypeName = "date")] // Usa TypeName para mapear a tipo DATE si EF Core no lo infiere correctamente
+        [Column("start_date", TypeName = "date")]
         public DateTime StartDate { get; set; }
 
         // end_date (DATE, NULLABLE)
         [Column("end_date", TypeName = "date")]
-        public DateTime? EndDate { get; set; } // '?' indica que es anulable
+        public DateTime? EndDate { get; set; }
 
         // remarks (VARCHAR(255), NULLABLE)
         [StringLength(255)]
@@ -43,13 +44,20 @@ namespace Entities.Manager
 
         // created_at (DATETIME, NOT NULL)
         [Required]
-        [Column("created_at", TypeName = "datetime")] // Para SQL Server puede ser 'datetime' o 'datetime2'
+        [Column("created_at", TypeName = "datetime")]
         public DateTime CreatedAt { get; set; }
 
         // created_by (VARCHAR(50), NULLABLE)
         [StringLength(50)]
         [Column("created_by", TypeName = "varchar(50)")]
         public string? CreatedBy { get; set; }
+
+        [Column("updated_at")]
+        public DateTime? UpdatedAt { get; set; }
+
+        [Column("updated_by")]
+        [StringLength(50)]
+        public string? UpdatedBy { get; set; }
 
         // full_name_employee (VARCHAR(255), NULLABLE)
         [StringLength(255)]
@@ -85,5 +93,20 @@ namespace Entities.Manager
         [StringLength(20)]
         [Column("location_name", TypeName = "varchar(20)")]
         public string? LocationName { get; set; }
+
+        // =============================================
+        // == NUEVAS PROPIEDADES AÑADIDAS ==
+        // =============================================
+        [StringLength(30)]
+        [Column("ccost_id", TypeName = "varchar(30)")]
+        public string? CcostId { get; set; }
+
+        [StringLength(70)]
+        [Column("ccost_description", TypeName = "varchar(70)")]
+        public string? CcostDescription { get; set; }
+
+        [StringLength(30)]
+        [Column("compania_id", TypeName = "varchar(30)")]
+        public string? CompaniaId { get; set; }
     }
 }

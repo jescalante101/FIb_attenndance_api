@@ -18,7 +18,6 @@ namespace Entities.ManualLog
         public int ManuallogId { get; set; }
 
         [Column("abstractexception_ptr_id")]
-        [Required]
         public int AbstractexceptionPtrId { get; set; }
 
         [Column("punch_time")]
@@ -70,5 +69,19 @@ namespace Entities.ManualLog
         [Column("nro_doc")]
         [StringLength(20)]
         public string? NroDoc { get; set; }
+
+        [Column("created_at")]
+        public DateTime? CreatedAt { get; set; }
+
+        [Column("updated_at")]
+        public DateTime? UpdatedAt { get; set; }
+
+        [Column("created_by")]
+        [StringLength(50)]
+        public string? CreatedBy { get; set; }
+
+        [Column("updated_by")]
+        [StringLength(50)]
+        public string? UpdatedBy { get; set; }
     }
 }

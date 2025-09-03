@@ -242,7 +242,7 @@ namespace FibAttendanceApi.Core.Reporte.AttendanceMatrix
                     filter.FechaInicio, filter.FechaFin);
 
                 using var connection = new SqlConnection(_connectionString);
-                using var command = new SqlCommand("sp_AttendanceMatrixOptimized_Excel", connection)
+                using var command = new SqlCommand("sp_AttendanceMatrixOptimized_Excel_Temp", connection)
                 {
                     CommandType = CommandType.StoredProcedure,
                     CommandTimeout = 300 // 5 minutos timeout
@@ -1213,6 +1213,10 @@ namespace FibAttendanceApi.Core.Reporte.AttendanceMatrix
                 .Distinct()
                 .ToList();
 
+            // Si solo hay una marcación, no mostrar salida (solo entrada)
+            if (horasUnicas.Count == 1)
+                return "";
+
             return horasUnicas.LastOrDefault() ?? "FALTA";
         }
 
@@ -1559,7 +1563,7 @@ namespace FibAttendanceApi.Core.Reporte.AttendanceMatrix
                     filter.FechaInicio, filter.FechaFin);
 
                 // Obtener datos sin paginación para el pivot
-                var rawData = await GetAttendanceMatrixAsync(filter);
+                var rawData = await GetAttendanceNoPaginatedAsync(filter);
 
                 if (!rawData.Success || !rawData.Data.Any())
                 {
@@ -1697,13 +1701,20 @@ namespace FibAttendanceApi.Core.Reporte.AttendanceMatrix
                 return "F"; // Falta sin justificar
             }
 
-            // 3. Contar marcaciones (split por |)
-            var marcaciones = dayData.MarcacionesDelDia
+            // 3. Contar marcaciones únicas (eliminar duplicados)
+            var marcacionesUnicas = dayData.MarcacionesDelDia
                 .Split('|', StringSplitOptions.RemoveEmptyEntries)
+                .Select(m =>
+                {
+                    var limpia = m.Trim();
+                    var parenIndex = limpia.IndexOf('(');
+                    return parenIndex > 0 ? limpia.Substring(0, parenIndex).Trim() : limpia.Trim();
+                })
                 .Where(m => !string.IsNullOrWhiteSpace(m))
+                .Distinct()
                 .Count();
 
-            return marcaciones.ToString();
+            return marcacionesUnicas.ToString();
         }
 
         /// <summary>
@@ -2290,6 +2301,644 @@ namespace FibAttendanceApi.Core.Reporte.AttendanceMatrix
                    int.TryParse(timeParts[1], out var minutes) &&
                    hours >= 0 && hours <= 23 &&
                    minutes >= 0 && minutes <= 59;
+        }
+
+        #endregion
+
+        #region Data JSON Methods
+
+        /// <summary>
+        /// Obtiene datos del reporte de Centro de Costos como JSON
+        /// </summary>
+        public async Task<CostCenterReportDataDto> GetCostCenterDataAsync(AttendanceMatrixFilterDto filter)
+        {
+            var startTime = DateTime.Now;
+            
+            try
+            {
+                _logger.LogInformation("Iniciando obtención de datos Centro de Costos JSON para período {FechaInicio} - {FechaFin}",
+                    filter.FechaInicio, filter.FechaFin);
+
+                // 1. Obtener datos del SP
+                var data = await GetAttendanceNoPaginatedAsync(filter);
+
+                if (!data.Success || !data.Data.Any())
+                {
+                    return new CostCenterReportDataDto
+                    {
+                        Success = false,
+                        Message = "No hay datos para procesar",
+                        GeneratedAt = DateTime.Now,
+                        ExecutionTime = DateTime.Now - startTime
+                    };
+                }
+
+                // 2. Procesar datos pivot
+                var pivotData = ProcessDataForPivot(data.Data, filter.FechaInicio, filter.FechaFin);
+                var dateRange = GenerateDateRange(filter.FechaInicio, filter.FechaFin);
+                var weekGroups = GenerateWeekGroups(dateRange);
+
+                // 3. Construir estructura de datos
+                var content = new CostCenterReportContentDto
+                {
+                    Title = $"REPORTE DE CENTRO DE COSTO - {filter.FechaInicio:yyyy-MM-dd}-{filter.FechaFin:yyyy-MM-dd}",
+                    FechaInicio = filter.FechaInicio,
+                    FechaFin = filter.FechaFin,
+                    Headers = new List<string> { "ITEM", "PLANILLA", "NRO DOC", "APELLIDOS Y NOMBRES", "AREA", "CARGO", "FECHA INGRESO" },
+                    WeekGroups = weekGroups.Select(w => new WeekGroupDto
+                    {
+                        WeekNumber = w.WeekNumber,
+                        Dates = w.Dates,
+                        DayNames = w.Dates.Select(GetSpanishDayName).ToList(),
+                        DayNumbers = w.Dates.Select(d => d.Day.ToString("00")).ToList()
+                    }).ToList(),
+                    Employees = ProcessCostCenterEmployees(pivotData, weekGroups),
+                    Summary = CreateCostCenterSummary(pivotData, dateRange)
+                };
+
+                return new CostCenterReportDataDto
+                {
+                    Success = true,
+                    Message = $"Datos procesados exitosamente. {pivotData.Count} empleados encontrados.",
+                    GeneratedAt = DateTime.Now,
+                    ExecutionTime = DateTime.Now - startTime,
+                    Content = content
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener datos de Centro de Costos JSON");
+                return new CostCenterReportDataDto
+                {
+                    Success = false,
+                    Message = $"Error interno: {ex.Message}",
+                    GeneratedAt = DateTime.Now,
+                    ExecutionTime = DateTime.Now - startTime
+                };
+            }
+        }
+
+        /// <summary>
+        /// Obtiene datos del reporte de Marcaciones como JSON
+        /// </summary>
+        public async Task<MarkingsReportDataDto> GetMarkingsDataAsync(AttendanceMatrixFilterDto filter)
+        {
+            var startTime = DateTime.Now;
+            
+            try
+            {
+                _logger.LogInformation("Iniciando obtención de datos Marcaciones JSON para período {FechaInicio} - {FechaFin}",
+                    filter.FechaInicio, filter.FechaFin);
+
+                // 1. Obtener datos del SP
+                var data = await GetAttendanceNoPaginatedAsync(filter);
+
+                if (!data.Success || !data.Data.Any())
+                {
+                    return new MarkingsReportDataDto
+                    {
+                        Success = false,
+                        Message = "No hay datos para procesar",
+                        GeneratedAt = DateTime.Now,
+                        ExecutionTime = DateTime.Now - startTime
+                    };
+                }
+
+                // 2. Procesar datos pivot
+                var pivotData = ProcessDataForPivot(data.Data, filter.FechaInicio, filter.FechaFin);
+                var dateRange = GenerateDateRange(filter.FechaInicio, filter.FechaFin);
+                var weekGroups = GenerateWeekGroups(dateRange);
+
+                // 3. Construir estructura de datos
+                var content = new MarkingsReportContentDto
+                {
+                    Title = $"REPORTE DE MARCACIONES - {filter.FechaInicio:yyyy-MM-dd}-{filter.FechaFin:yyyy-MM-dd}",
+                    FechaInicio = filter.FechaInicio,
+                    FechaFin = filter.FechaFin,
+                    Headers = new List<string> { "ITEM", "PLANILLA", "NRO DOC", "APELLIDOS Y NOMBRES", "AREA", "CARGO", "FECHA INGRESO" },
+                    WeekGroups = weekGroups.Select(w => new WeekGroupDto
+                    {
+                        WeekNumber = w.WeekNumber,
+                        Dates = w.Dates,
+                        DayNames = w.Dates.Select(GetSpanishDayName).ToList(),
+                        DayNumbers = w.Dates.Select(d => d.Day.ToString("00")).ToList()
+                    }).ToList(),
+                    Employees = ProcessMarkingsEmployees(pivotData, weekGroups),
+                    Summary = CreateMarkingsSummary(pivotData, dateRange)
+                };
+
+                return new MarkingsReportDataDto
+                {
+                    Success = true,
+                    Message = $"Datos procesados exitosamente. {pivotData.Count} empleados encontrados.",
+                    GeneratedAt = DateTime.Now,
+                    ExecutionTime = DateTime.Now - startTime,
+                    Content = content
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener datos de Marcaciones JSON");
+                return new MarkingsReportDataDto
+                {
+                    Success = false,
+                    Message = $"Error interno: {ex.Message}",
+                    GeneratedAt = DateTime.Now,
+                    ExecutionTime = DateTime.Now - startTime
+                };
+            }
+        }
+
+        /// <summary>
+        /// Obtiene datos del reporte de Asistencia Semanal como JSON
+        /// </summary>
+        public async Task<WeeklyAttendanceDataDto> GetWeeklyAttendanceDataAsync(AttendanceMatrixFilterDto filter)
+        {
+            var startTime = DateTime.Now;
+            
+            try
+            {
+                _logger.LogInformation("Iniciando obtención de datos Asistencia Semanal JSON para período {FechaInicio} - {FechaFin}",
+                    filter.FechaInicio, filter.FechaFin);
+
+                // 1. Obtener datos del SP
+                var data = await GetAttendanceNoPaginatedAsync(filter);
+
+                if (!data.Success || !data.Data.Any())
+                {
+                    return new WeeklyAttendanceDataDto
+                    {
+                        Success = false,
+                        Message = "No hay datos para procesar",
+                        GeneratedAt = DateTime.Now,
+                        ExecutionTime = DateTime.Now - startTime
+                    };
+                }
+
+                // 2. Procesar datos pivot
+                var pivotData = ProcessDataForPivot(data.Data, filter.FechaInicio, filter.FechaFin);
+                var dateRange = GenerateDateRange(filter.FechaInicio, filter.FechaFin);
+                var weekGroups = GenerateWeekGroups(dateRange);
+
+                // 3. Construir estructura de datos
+                var content = new WeeklyAttendanceContentDto
+                {
+                    Title = $"REPORTE DE ASISTENCIA SEMANAL - {filter.FechaInicio:yyyy-MM-dd}-{filter.FechaFin:yyyy-MM-dd}",
+                    FechaInicio = filter.FechaInicio,
+                    FechaFin = filter.FechaFin,
+                    Headers = new List<string> { "ITEM", "PLANILLA", "NRO DOC", "APELLIDOS Y NOMBRES", "AREA", "CENTRO COSTO", "CARGO", "FECHA INGRESO" },
+                    WeekGroups = weekGroups.Select(w => new WeekGroupDto
+                    {
+                        WeekNumber = w.WeekNumber,
+                        Dates = w.Dates,
+                        DayNames = w.Dates.Select(GetSpanishDayName).ToList(),
+                        DayNumbers = w.Dates.Select(d => d.Day.ToString("00")).ToList()
+                    }).ToList(),
+                    Employees = ProcessWeeklyAttendanceEmployees(pivotData, weekGroups),
+                    Summary = CreateWeeklyAttendanceSummary(pivotData, weekGroups, dateRange)
+                };
+
+                return new WeeklyAttendanceDataDto
+                {
+                    Success = true,
+                    Message = $"Datos procesados exitosamente. {pivotData.Count} empleados encontrados.",
+                    GeneratedAt = DateTime.Now,
+                    ExecutionTime = DateTime.Now - startTime,
+                    Content = content
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener datos de Asistencia Semanal JSON");
+                return new WeeklyAttendanceDataDto
+                {
+                    Success = false,
+                    Message = $"Error interno: {ex.Message}",
+                    GeneratedAt = DateTime.Now,
+                    ExecutionTime = DateTime.Now - startTime
+                };
+            }
+        }
+
+        #endregion
+
+        #region Helper Methods for JSON Processing
+
+        private List<CostCenterEmployeeDto> ProcessCostCenterEmployees(List<EmployeePivotData> pivotData, List<WeekGroup> weekGroups)
+        {
+            var employees = new List<CostCenterEmployeeDto>();
+            var itemNumber = 1;
+
+            foreach (var employee in pivotData)
+            {
+                var employeeDto = new CostCenterEmployeeDto
+                {
+                    ItemNumber = itemNumber++,
+                    PersonalId = employee.PersonalId,
+                    NroDoc = employee.NroDoc,
+                    Colaborador = employee.Colaborador,
+                    Area = employee.Area,
+                    Cargo = employee.Cargo,
+                    FechaIngreso = employee.FechaIngreso,
+                    Planilla = GetAbbreviatedPlanilla(employee.Planilla),
+                    WeekData = new List<CostCenterWeekDataDto>()
+                };
+
+                foreach (var week in weekGroups)
+                {
+                    var weekData = new CostCenterWeekDataDto
+                    {
+                        WeekNumber = week.WeekNumber,
+                        Turno = GetWeekTurno(employee, week.Dates),
+                        DayValues = new List<CostCenterDayValueDto>()
+                    };
+
+                    foreach (var date in week.Dates)
+                    {
+                        var value = GetCostCenterValue(employee, date);
+                        var type = GetValueType(value);
+                        var specificPermission = GetSpecificPermissionType(employee, date);
+                        
+                        weekData.DayValues.Add(new CostCenterDayValueDto
+                        {
+                            Date = date,
+                            Value = value,
+                            DisplayValue = value,
+                            Type = type,
+                            SpecificPermissionType = specificPermission
+                        });
+                    }
+
+                    employeeDto.WeekData.Add(weekData);
+                }
+
+                employees.Add(employeeDto);
+            }
+
+            return employees;
+        }
+
+        private List<MarkingsEmployeeDto> ProcessMarkingsEmployees(List<EmployeePivotData> pivotData, List<WeekGroup> weekGroups)
+        {
+            var employees = new List<MarkingsEmployeeDto>();
+            var itemNumber = 1;
+
+            foreach (var employee in pivotData)
+            {
+                var employeeDto = new MarkingsEmployeeDto
+                {
+                    ItemNumber = itemNumber++,
+                    PersonalId = employee.PersonalId,
+                    NroDoc = employee.NroDoc,
+                    Colaborador = employee.Colaborador,
+                    Area = employee.Area,
+                    Cargo = employee.Cargo,
+                    FechaIngreso = employee.FechaIngreso,
+                    Planilla = GetAbbreviatedPlanilla(employee.Planilla),
+                    WeekData = new List<MarkingsWeekDataDto>()
+                };
+
+                foreach (var week in weekGroups)
+                {
+                    var weekData = new MarkingsWeekDataDto
+                    {
+                        WeekNumber = week.WeekNumber,
+                        Turno = GetWeekTurno(employee, week.Dates),
+                        DayValues = new List<MarkingsDayValueDto>()
+                    };
+
+                    foreach (var date in week.Dates)
+                    {
+                        var value = GetMarkingsValue(employee, date);
+                        var type = GetValueType(value);
+                        var markingsCount = GetMarkingsCount(employee, date);
+                        var rawMarkings = GetRawMarkings(employee, date);
+                        var specificPermission = GetSpecificPermissionType(employee, date);
+                        
+                        weekData.DayValues.Add(new MarkingsDayValueDto
+                        {
+                            Date = date,
+                            Value = value,
+                            DisplayValue = value,
+                            Type = type,
+                            MarkingsCount = markingsCount,
+                            RawMarkings = rawMarkings,
+                            SpecificPermissionType = specificPermission
+                        });
+                    }
+
+                    employeeDto.WeekData.Add(weekData);
+                }
+
+                employees.Add(employeeDto);
+            }
+
+            return employees;
+        }
+
+        private List<WeeklyAttendanceEmployeeDto> ProcessWeeklyAttendanceEmployees(List<EmployeePivotData> pivotData, List<WeekGroup> weekGroups)
+        {
+            var employees = new List<WeeklyAttendanceEmployeeDto>();
+            var itemNumber = 1;
+
+            foreach (var employee in pivotData)
+            {
+                decimal totalGlobalHoras = 0;
+                decimal totalGlobalExtras = 0;
+
+                var employeeDto = new WeeklyAttendanceEmployeeDto
+                {
+                    ItemNumber = itemNumber++,
+                    PersonalId = employee.PersonalId,
+                    NroDoc = employee.NroDoc,
+                    Colaborador = employee.Colaborador,
+                    Area = employee.Area,
+                    CentroCosto = employee.CCCodigo,
+                    Cargo = employee.Cargo,
+                    FechaIngreso = employee.FechaIngreso,
+                    Planilla = GetAbbreviatedPlanilla(employee.Planilla),
+                    WeekData = new List<WeeklyAttendanceWeekDataDto>()
+                };
+
+                foreach (var week in weekGroups)
+                {
+                    decimal weekTotalHours = 0;
+                    decimal weekOvertimeHours = 0;
+
+                    var weekData = new WeeklyAttendanceWeekDataDto
+                    {
+                        WeekNumber = week.WeekNumber,
+                        Turno = GetWeekTurno(employee, week.Dates),
+                        DayData = new List<WeeklyAttendanceDayDataDto>()
+                    };
+
+                    foreach (var date in week.Dates)
+                    {
+                        var dayDto = new WeeklyAttendanceDayDataDto
+                        {
+                            Date = date,
+                            DayName = GetSpanishDayName(date.DayOfWeek)
+                        };
+
+                        if (employee.DailyData.TryGetValue(date.Date, out var dayData))
+                        {
+                            dayDto.EntradaReal = dayData.EntradaReal ?? "";
+                            dayDto.SalidaReal = dayData.SalidaReal ?? "";
+                            dayDto.TipoPermiso = dayData.TipoPermiso ?? "";
+                            
+                            var dailyHours = CalculateDailyWorkedHours(dayData);
+                            dayDto.HorasTrabjadas = dailyHours;
+                            weekTotalHours += dailyHours;
+
+                            if (dailyHours > 8)
+                            {
+                                weekOvertimeHours += dailyHours - 8;
+                            }
+
+                            dayDto.Type = GetAttendanceType(dayData);
+                            dayDto.EstadoColor = GetAttendanceColor(dayData);
+                        }
+                        else
+                        {
+                            dayDto.Type = "empty";
+                            dayDto.EstadoColor = "danger";
+                        }
+
+                        weekData.DayData.Add(dayDto);
+                    }
+
+                    weekData.WeekTotals = new WeeklyAttendanceWeekTotalsDto
+                    {
+                        HorasTrabajadas = Math.Round(weekTotalHours, 1),
+                        HorasExtras = Math.Round(weekOvertimeHours, 1)
+                    };
+
+                    totalGlobalHoras += weekTotalHours;
+                    totalGlobalExtras += weekOvertimeHours;
+
+                    employeeDto.WeekData.Add(weekData);
+                }
+
+                employeeDto.GlobalTotals = new WeeklyAttendanceGlobalTotalsDto
+                {
+                    TotalHoras = Math.Round(totalGlobalHoras, 1),
+                    TotalExtras = Math.Round(totalGlobalExtras, 1)
+                };
+
+                employees.Add(employeeDto);
+            }
+
+            return employees;
+        }
+
+        private CostCenterSummaryDto CreateCostCenterSummary(List<EmployeePivotData> pivotData, List<DateTime> dateRange)
+        {
+            var summary = new CostCenterSummaryDto
+            {
+                TotalEmployees = pivotData.Count
+            };
+
+            var conceptCounts = new Dictionary<string, int>();
+
+            foreach (var employee in pivotData)
+            {
+                foreach (var date in dateRange)
+                {
+                    var value = GetCostCenterValue(employee, date);
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        if (value.Length <= 3) // Conceptos como VA, F, DM, etc.
+                        {
+                            conceptCounts[value] = conceptCounts.GetValueOrDefault(value, 0) + 1;
+
+                            if (value == "F")
+                                summary.TotalAbsences++;
+                            else if (value != employee.CCCodigo)
+                                summary.TotalPermissions++;
+                            else
+                                summary.TotalWorkingDays++;
+                        }
+                        else
+                        {
+                            summary.TotalWorkingDays++;
+                        }
+                    }
+                }
+            }
+
+            summary.ConceptCounts = conceptCounts;
+            return summary;
+        }
+
+        private MarkingsSummaryDto CreateMarkingsSummary(List<EmployeePivotData> pivotData, List<DateTime> dateRange)
+        {
+            var summary = new MarkingsSummaryDto
+            {
+                TotalEmployees = pivotData.Count
+            };
+
+            var conceptCounts = new Dictionary<string, int>();
+            var markingsDistribution = new Dictionary<int, int>();
+            var totalMarkings = 0;
+            var totalDaysWithMarkings = 0;
+
+            foreach (var employee in pivotData)
+            {
+                foreach (var date in dateRange)
+                {
+                    var value = GetMarkingsValue(employee, date);
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        if (int.TryParse(value, out var markingsCount))
+                        {
+                            markingsDistribution[markingsCount] = markingsDistribution.GetValueOrDefault(markingsCount, 0) + 1;
+                            totalMarkings += markingsCount;
+                            totalDaysWithMarkings++;
+                            summary.TotalWorkingDays++;
+                        }
+                        else
+                        {
+                            conceptCounts[value] = conceptCounts.GetValueOrDefault(value, 0) + 1;
+                            
+                            if (value == "F")
+                                summary.TotalAbsences++;
+                            else
+                                summary.TotalPermissions++;
+                        }
+                    }
+                }
+            }
+
+            summary.ConceptCounts = conceptCounts;
+            summary.MarkingsDistribution = markingsDistribution;
+            summary.AverageMarkingsPerDay = totalDaysWithMarkings > 0 ? (decimal)totalMarkings / totalDaysWithMarkings : 0;
+            
+            return summary;
+        }
+
+        private WeeklyAttendanceSummaryDto CreateWeeklyAttendanceSummary(List<EmployeePivotData> pivotData, List<WeekGroup> weekGroups, List<DateTime> dateRange)
+        {
+            var summary = new WeeklyAttendanceSummaryDto
+            {
+                TotalEmployees = pivotData.Count,
+                TotalHorasGlobales = pivotData.Sum(e => e.TotalHoras),
+                TotalHorasExtrasGlobales = pivotData.Sum(e => e.HorasExtras)
+            };
+
+            summary.AverageHoursPerEmployee = summary.TotalEmployees > 0 ? summary.TotalHorasGlobales / summary.TotalEmployees : 0;
+            summary.AverageOvertimePerEmployee = summary.TotalEmployees > 0 ? summary.TotalHorasExtrasGlobales / summary.TotalEmployees : 0;
+
+            // Crear resúmenes por semana
+            summary.WeekSummaries = weekGroups.Select(week => new WeeklyAttendanceWeekSummaryDto
+            {
+                WeekNumber = week.WeekNumber,
+                StartDate = week.Dates.First(),
+                EndDate = week.Dates.Last(),
+                TotalHorasSemana = pivotData.Sum(emp => 
+                    week.Dates.Where(date => emp.DailyData.ContainsKey(date.Date))
+                             .Sum(date => CalculateDailyWorkedHours(emp.DailyData[date.Date]))),
+                TotalExtrasSemana = pivotData.Sum(emp => 
+                    week.Dates.Where(date => emp.DailyData.ContainsKey(date.Date))
+                             .Sum(date => Math.Max(0, CalculateDailyWorkedHours(emp.DailyData[date.Date]) - 8))),
+                EmpleadosConDatos = pivotData.Count(emp => 
+                    week.Dates.Any(date => emp.DailyData.ContainsKey(date.Date)))
+            }).ToList();
+
+            return summary;
+        }
+
+        private string GetValueType(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return "empty";
+            
+            if (value == "F")
+                return "absence";
+            
+            if (int.TryParse(value, out _))
+                return "markings";
+            
+            return "work";
+        }
+
+        private string GetSpecificPermissionType(EmployeePivotData employee, DateTime date)
+        {
+            if (!employee.DailyData.TryGetValue(date.Date, out var dayData))
+                return "";
+
+            // Retornar el tipo de permiso exacto de la BD
+            return dayData.TipoPermiso ?? "";
+        }
+
+        private int? GetMarkingsCount(EmployeePivotData employee, DateTime date)
+        {
+            if (!employee.DailyData.TryGetValue(date.Date, out var dayData))
+                return null;
+
+            if (string.IsNullOrEmpty(dayData.MarcacionesDelDia) || dayData.MarcacionesDelDia == "SIN_MARCACIONES")
+                return 0;
+
+            // Contar marcaciones únicas (eliminar duplicados como en GetMarkingsValue)
+            return dayData.MarcacionesDelDia
+                .Split('|', StringSplitOptions.RemoveEmptyEntries)
+                .Select(m =>
+                {
+                    var limpia = m.Trim();
+                    var parenIndex = limpia.IndexOf('(');
+                    return parenIndex > 0 ? limpia.Substring(0, parenIndex).Trim() : limpia.Trim();
+                })
+                .Where(m => !string.IsNullOrWhiteSpace(m))
+                .Distinct()
+                .Count();
+        }
+
+        private string GetRawMarkings(EmployeePivotData employee, DateTime date)
+        {
+            if (!employee.DailyData.TryGetValue(date.Date, out var dayData))
+                return "";
+
+            return dayData.MarcacionesDelDia ?? "";
+        }
+
+        private string GetAttendanceType(DailyAttendanceData dayData)
+        {
+            // Verificar si es un feriado ANTES de clasificar como permiso
+            if (!string.IsNullOrEmpty(dayData.TipoPermiso) && dayData.TipoPermiso.StartsWith("FERIADO:", StringComparison.OrdinalIgnoreCase))
+                return "holiday";
+            
+            if (!string.IsNullOrEmpty(dayData.TipoPermiso))
+                return "permission";
+            
+            if (dayData.EntradaReal == "FALTA" || dayData.SalidaReal == "FALTA")
+                return "absence";
+            
+            if (!string.IsNullOrEmpty(dayData.EntradaReal) && !string.IsNullOrEmpty(dayData.SalidaReal))
+                return "work";
+            
+            return "empty";
+        }
+
+        private string GetAttendanceColor(DailyAttendanceData dayData)
+        {
+            // Verificar si es un feriado ANTES de clasificar como permiso
+            if (!string.IsNullOrEmpty(dayData.TipoPermiso) && dayData.TipoPermiso.StartsWith("FERIADO:", StringComparison.OrdinalIgnoreCase))
+                return "warning"; // Naranja/amarillo para feriados
+            
+            if (!string.IsNullOrEmpty(dayData.TipoPermiso))
+                return "primary"; // Azul para permisos
+            
+            if (dayData.EntradaReal == "FALTA" || dayData.SalidaReal == "FALTA")
+                return "danger"; // Rojo para faltas
+            
+            if (!string.IsNullOrEmpty(dayData.EntradaReal) && !string.IsNullOrEmpty(dayData.SalidaReal))
+                return "success"; // Verde para trabajo normal
+            
+            return "secondary"; // Gris para vacío
+        }
+
+        private string GetSpanishDayName(DateTime date)
+        {
+            return GetSpanishDayName(date.DayOfWeek);
         }
 
         #endregion

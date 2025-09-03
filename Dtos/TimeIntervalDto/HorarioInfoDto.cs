@@ -34,6 +34,15 @@ namespace Dtos.TimeIntervalDto
         public int HNivel2 { get; set; }
         public int HNivel3 { get; set; }
 
+        // --- CAMPOS NUEVOS AÑADIDOS ---
+
+        public decimal? PorcentajeNivel1 { get; set; }
+        public decimal? PorcentajeNivel2 { get; set; }
+        public decimal? PorcentajeNivel3 { get; set; }
+        public string? CompaniaId { get; set; }
+
+        // --- FIN DE CAMPOS NUEVOS ---
+
         public bool MarcarEntrada { get; set; }
         public bool MarcarSalida { get; set; }
 
@@ -49,6 +58,12 @@ namespace Dtos.TimeIntervalDto
         public int BasadoM { get; set; }
 
         public short? TotalMarcaciones { get; set; }
+
+        public string? CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
+        public string? UpdatedBy { get; set; }
     }
+
 
 }
