@@ -72,22 +72,25 @@ namespace FibAttendanceApi.Controllers.EmployeeShiftAssignmentController
                         (x.CompaniaId != null && x.CompaniaId.ToLower().Contains(searchLower))
                     );
                 }
-               
 
-                if (startDate.HasValue)
+                if (startDate.HasValue && endDate.HasValue)
                 {
                     var startDateOnly = startDate.Value.Date;
-                    query = query.Where(x => x.StartDate >= startDateOnly);
-                }
+                    var endDateOnly = endDate.Value.Date.AddDays(1).AddTicks(-1);
 
-                if (endDate.HasValue)
+                    // Hay superposición si: inicio_registro <= fin_filtro AND fin_registro >= inicio_filtro
+                    query = query.Where(x => x.StartDate <= endDateOnly && x.EndDate >= startDateOnly);
+                }
+                else if (startDate.HasValue)
+                {
+                    var startDateOnly = startDate.Value.Date;
+                    query = query.Where(x => x.EndDate >= startDateOnly);
+                }
+                else if (endDate.HasValue)
                 {
                     var endDateOnly = endDate.Value.Date.AddDays(1).AddTicks(-1);
-                    query = query.Where(x => x.EndDate <= endDateOnly);
+                    query = query.Where(x => x.StartDate <= endDateOnly);
                 }
-
-                
-              
 
                 query = query.OrderByDescending(x => x.CreatedAt);
 

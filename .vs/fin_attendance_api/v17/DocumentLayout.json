@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\Fib_Attendance\\FIb_attenndance_api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\fib_attendance\\fib_attenndance_api\\fin_attendance_api\\core\\reporte\\attendancematrix\\attendancematrixservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\core\\reporte\\attendancematrix\\attendancematrixservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\fib_attendance\\fib_attenndance_api\\fin_attendance_api\\controllers\\reportes\\attendancematrixcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\controllers\\reportes\\attendancematrixcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{81882300-4C2B-4BAF-A5B0-88EC3A25ACBA}|Dtos\\Dtos.csproj|c:\\fib_attendance\\fib_attenndance_api\\dtos\\reportes\\matrix\\attendancematrixdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{81882300-4C2B-4BAF-A5B0-88EC3A25ACBA}|Dtos\\Dtos.csproj|solutionrelative:dtos\\reportes\\matrix\\attendancematrixdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\fib_attendance\\fib_attenndance_api\\fin_attendance_api\\controllers\\employeeshiftassignmentcontroller\\employeeshiftassignmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\controllers\\employeeshiftassignmentcontroller\\employeeshiftassignmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,40 +22,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AttendanceMatrixDto.cs",
-              "DocumentMoniker": "C:\\Fib_Attendance\\FIb_attenndance_api\\Dtos\\Reportes\\Matrix\\AttendanceMatrixDto.cs",
-              "RelativeDocumentMoniker": "Dtos\\Reportes\\Matrix\\AttendanceMatrixDto.cs",
-              "ToolTip": "C:\\Fib_Attendance\\FIb_attenndance_api\\Dtos\\Reportes\\Matrix\\AttendanceMatrixDto.cs",
-              "RelativeToolTip": "Dtos\\Reportes\\Matrix\\AttendanceMatrixDto.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAA1wEwAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T02:27:56.028Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AttendanceMatrixService.cs",
-              "DocumentMoniker": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Core\\Reporte\\AttendanceMatrix\\AttendanceMatrixService.cs",
-              "RelativeDocumentMoniker": "fin_attendance_api\\Core\\Reporte\\AttendanceMatrix\\AttendanceMatrixService.cs",
-              "ToolTip": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Core\\Reporte\\AttendanceMatrix\\AttendanceMatrixService.cs",
-              "RelativeToolTip": "fin_attendance_api\\Core\\Reporte\\AttendanceMatrix\\AttendanceMatrixService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAPQAAAAQAAAAAAAAAA==",
+              "Title": "EmployeeShiftAssignmentController.cs",
+              "DocumentMoniker": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Controllers\\EmployeeShiftAssignmentController\\EmployeeShiftAssignmentController.cs",
+              "RelativeDocumentMoniker": "fin_attendance_api\\Controllers\\EmployeeShiftAssignmentController\\EmployeeShiftAssignmentController.cs",
+              "ToolTip": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Controllers\\EmployeeShiftAssignmentController\\EmployeeShiftAssignmentController.cs",
+              "RelativeToolTip": "fin_attendance_api\\Controllers\\EmployeeShiftAssignmentController\\EmployeeShiftAssignmentController.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAowFwAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T01:41:46.418Z",
+              "WhenOpened": "2025-09-05T18:02:09.128Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AttendanceMatrixController.cs",
-              "DocumentMoniker": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Controllers\\Reportes\\AttendanceMatrixController.cs",
-              "RelativeDocumentMoniker": "fin_attendance_api\\Controllers\\Reportes\\AttendanceMatrixController.cs",
-              "ToolTip": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Controllers\\Reportes\\AttendanceMatrixController.cs",
-              "RelativeToolTip": "fin_attendance_api\\Controllers\\Reportes\\AttendanceMatrixController.cs",
-              "ViewState": "AgIAAL0AAAAAAAAAAAAuwAsBAAB9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T01:40:22.649Z"
             }
           ]
         }
