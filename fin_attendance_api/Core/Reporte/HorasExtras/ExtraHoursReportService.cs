@@ -141,6 +141,31 @@ namespace FibAttendanceApi.Core.Reporte.HorasExtras
                 result[dia.Fecha.Date] = asistenciaDia;
             }
 
+            // Agregar "Descanso" para domingos sin marcación
+            var allDaysInRange = new List<DateTime>();
+            for (var date = weeks.First().start; date <= weeks.Last().end; date = date.AddDays(1))
+            {
+                allDaysInRange.Add(date);
+            }
+
+            foreach (var day in allDaysInRange)
+            {
+                if (!result.ContainsKey(day.Date) && day.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    result[day.Date] = new AsistenciaDiaReporteDto
+                    {
+                        HoraEntrada = "Descanso",
+                        HoraSalida = "Descanso",
+                        HorasNormales = 0,
+                        HorasExtras1 = 0,
+                        HorasExtras2 = 0,
+                        HorasExtras100 = 0,
+                        Estado = "DESCANSO",
+                        TipoTurno = ""
+                    };
+                }
+            }
+
             return result;
         }
 
@@ -182,12 +207,6 @@ namespace FibAttendanceApi.Core.Reporte.HorasExtras
             }
 
             return weeks;
-        }
-
-        private DateTime GetStartOfWeek(DateTime date, DayOfWeek startOfWeek)
-        {
-            int diff = (7 + (date.DayOfWeek - startOfWeek)) % 7;
-            return date.AddDays(-1 * diff).Date;
         }
 
         private void CreateExcelReport(IXLWorksheet worksheet, List<ReporteAsistenciaSemanalDto> data, ReportFiltersHE filters)
@@ -374,6 +393,12 @@ namespace FibAttendanceApi.Core.Reporte.HorasExtras
                             {
                                 entradaSalidaRange.Style.Fill.SetBackgroundColor(XLColor.FromHtml("#F5F5F5")); // permisoBackground
                             }
+                            else if (asistencia.Estado == "DESCANSO")
+                            {
+                                entradaSalidaRange.Style.Fill.SetBackgroundColor(XLColor.FromHtml("#E8F5E8")); // Verde claro para descanso
+                                entradaSalidaRange.Style.Font.SetFontColor(XLColor.FromHtml("#2E7D32")); // Verde oscuro
+                                entradaSalidaRange.Style.Font.SetBold(true);
+                            }
                             else
                             {
                                 entradaSalidaRange.Style.Fill.SetBackgroundColor(XLColor.FromHtml("#F2F2F2")); // weekendBackground
@@ -388,9 +413,25 @@ namespace FibAttendanceApi.Core.Reporte.HorasExtras
                         }
                         else
                         {
-                            // Día sin datos (todas las 6 columnas - sin turno)
-                            worksheet.Cell(currentRow, currentCol++).Value = "";
-                            worksheet.Cell(currentRow, currentCol++).Value = "";
+                            // Verificar si es domingo para colocar "Descanso"
+                            if (day.DayOfWeek == DayOfWeek.Sunday)
+                            {
+                                worksheet.Cell(currentRow, currentCol++).Value = "Descanso";
+                                worksheet.Cell(currentRow, currentCol++).Value = "Descanso";
+                                
+                                // Aplicar color especial para descanso
+                                var descansoRange = worksheet.Range(currentRow, currentCol - 2, currentRow, currentCol - 1);
+                                descansoRange.Style.Fill.SetBackgroundColor(XLColor.FromHtml("#E8F5E8")); // Verde claro
+                                descansoRange.Style.Font.SetFontColor(XLColor.FromHtml("#2E7D32")); // Verde oscuro
+                                descansoRange.Style.Font.SetBold(true);
+                            }
+                            else
+                            {
+                                // Día sin datos (no es domingo)
+                                worksheet.Cell(currentRow, currentCol++).Value = "";
+                                worksheet.Cell(currentRow, currentCol++).Value = "";
+                            }
+                            
                             worksheet.Cell(currentRow, currentCol++).Value = 0;
                             worksheet.Cell(currentRow, currentCol++).Value = 0;
                             worksheet.Cell(currentRow, currentCol++).Value = 0;

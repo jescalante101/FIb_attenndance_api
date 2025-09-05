@@ -38,7 +38,10 @@ namespace FibAttendanceApi.Controllers.AttManualLogController
 
             // Aplicar filtro si se proporciona employeeId
             if (!string.IsNullOrWhiteSpace(employeeId))
-                query = query.Where(x => x.attLog.NroDoc == employeeId);
+                query = query.Where(x => x.attLog.NroDoc == employeeId );
+
+            query = query.Where(
+                x=>x.attLog.PunchTime>=x.emp.StartDate && x.attLog.PunchTime<= x.emp.EndDate);
 
             var totalItems = await query.CountAsync();
 

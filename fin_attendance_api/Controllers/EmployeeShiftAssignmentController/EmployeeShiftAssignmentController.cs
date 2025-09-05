@@ -466,7 +466,6 @@ namespace FibAttendanceApi.Controllers.EmployeeShiftAssignmentController
         [HttpGet("get-assignment-with-shift")]
         public async Task<ActionResult<ResultadoConsulta<EmployeeShiftArea>>> GetAssignmentWithShift(
             [FromQuery] string? nroDoc = null,
-            [FromQuery] string? fullName = null,
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 15,
             [FromQuery] string? areaId = null
@@ -492,15 +491,11 @@ namespace FibAttendanceApi.Controllers.EmployeeShiftAssignmentController
             // Filtro por nroDoc si se proporciona
             if (!string.IsNullOrWhiteSpace(nroDoc))
             {
-                empleadosTurnosQuery = empleadosTurnosQuery.Where(x => x.NroDoc == nroDoc);
+                empleadosTurnosQuery = empleadosTurnosQuery.Where(x => x.NroDoc.Contains(nroDoc) || x.FullNameEmployee.Contains(nroDoc));
             }
 
             // Filtro por fullName si se proporciona (búsqueda parcial, case-insensitive)
-            if (!string.IsNullOrWhiteSpace(fullName))
-            {
-                var fullNameLower = fullName.ToLower();
-                empleadosTurnosQuery = empleadosTurnosQuery.Where(x => x.FullNameEmployee != null && x.FullNameEmployee.ToLower().Contains(fullNameLower));
-            }
+            
             if (!string.IsNullOrWhiteSpace(areaId))
             {
                 empleadosTurnosQuery = empleadosTurnosQuery.Where(x => x.AreaId == areaId);

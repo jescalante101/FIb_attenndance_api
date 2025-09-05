@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Fib_Attendance\\FIb_attenndance_api\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\fib_attendance\\fib_attenndance_api\\fin_attendance_api\\controllers\\attmanuallogcontroller\\attmanuallogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\controllers\\attmanuallogcontroller\\attmanuallogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\fib_attendance\\fib_attenndance_api\\fin_attendance_api\\controllers\\employeeshiftassignmentcontroller\\employeeshiftassignmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\controllers\\employeeshiftassignmentcontroller\\employeeshiftassignmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\fib_attendance\\fib_attenndance_api\\fin_attendance_api\\core\\reporte\\horasextras\\extrahoursreportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\core\\reporte\\horasextras\\extrahoursreportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|c:\\fib_attendance\\fib_attenndance_api\\fin_attendance_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD9E2004-68D6-450B-B6B0-F6221B4FD20F}|fin_attendance_api\\FibAttendanceApi.csproj|solutionrelative:fin_attendance_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,12 +35,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AttManualLogController.cs",
+              "DocumentMoniker": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Controllers\\AttManualLogController\\AttManualLogController.cs",
+              "RelativeDocumentMoniker": "fin_attendance_api\\Controllers\\AttManualLogController\\AttManualLogController.cs",
+              "ToolTip": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Controllers\\AttManualLogController\\AttManualLogController.cs",
+              "RelativeToolTip": "fin_attendance_api\\Controllers\\AttManualLogController\\AttManualLogController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAgwCsAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-05T20:51:01.42Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ExtraHoursReportService.cs",
+              "DocumentMoniker": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Core\\Reporte\\HorasExtras\\ExtraHoursReportService.cs",
+              "RelativeDocumentMoniker": "fin_attendance_api\\Core\\Reporte\\HorasExtras\\ExtraHoursReportService.cs",
+              "ToolTip": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Core\\Reporte\\HorasExtras\\ExtraHoursReportService.cs",
+              "RelativeToolTip": "fin_attendance_api\\Core\\Reporte\\HorasExtras\\ExtraHoursReportService.cs",
+              "ViewState": "AgIAAOkAAAAAAAAAAAAYwG0BAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-05T19:29:38.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Program.cs",
+              "RelativeDocumentMoniker": "fin_attendance_api\\Program.cs",
+              "ToolTip": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Program.cs",
+              "RelativeToolTip": "fin_attendance_api\\Program.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-05T19:29:15.071Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "EmployeeShiftAssignmentController.cs",
               "DocumentMoniker": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Controllers\\EmployeeShiftAssignmentController\\EmployeeShiftAssignmentController.cs",
               "RelativeDocumentMoniker": "fin_attendance_api\\Controllers\\EmployeeShiftAssignmentController\\EmployeeShiftAssignmentController.cs",
               "ToolTip": "C:\\Fib_Attendance\\FIb_attenndance_api\\fin_attendance_api\\Controllers\\EmployeeShiftAssignmentController\\EmployeeShiftAssignmentController.cs",
               "RelativeToolTip": "fin_attendance_api\\Controllers\\EmployeeShiftAssignmentController\\EmployeeShiftAssignmentController.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAowFwAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAANEBAAAAAAAAAAAAwPEBAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-05T18:02:09.128Z",
               "EditorCaption": ""
